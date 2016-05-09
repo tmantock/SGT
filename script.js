@@ -64,7 +64,7 @@ function calculateAverage () {
 
     for(i=0; i<student_array.length; i++) {
         sum += parseInt(student_array[i].grade);
-        avg = sum/student_array.length;
+        avg = Math.round(sum/student_array.length);
         $('.avgGrade').html(avg);
     }
     return avg;
@@ -85,7 +85,7 @@ function updateStudentList (student) {
     var columnCourse = $('<td>').text(student_array[student_array.length-1].course);
     var columnGrade = $('<td>').text(student_array[student_array.length-1].grade);
     var deleteButton = $('<div>').css({
-        background: 'danger',
+        background: '#B33A3A',
         height: '90%',
         width: '40%',
         color: '#ffffff',
@@ -108,7 +108,7 @@ function addStudentToDom (student) {
         var columnCourse = $('<td>').text(student_array[i].course);
         var columnGrade = $('<td>').text(student_array[i].grade);
         var deleteButton = $('<div>').css({
-            background: 'danger',
+            background: '#B33A3A',
             height: '90%',
             width: '40%',
             color: '#ffffff',
