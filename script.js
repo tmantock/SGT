@@ -149,14 +149,6 @@ $(document).ready(function () {
     studentName  = $('#studentName');
     studentCourse = $('#course');
     studentGrade = $('#studentGrade');
-    var deleteButton = $('<div>').css({
-        background: 'firebrick',
-        height: '90%',
-        width: '40%',
-        color: '#ffffff',
-        textAlign: 'center',
-        borderRadius: '5%'
-    }).attr('onclick','delete()').text('delete');
 
     addStudentToDom();
 });
