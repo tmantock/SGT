@@ -163,6 +163,9 @@ function updateStudentList (student) {
  */
 function addStudentToDom (student) {
 
+    //Makes call during addStudentToDom to make sure the most up-to-date list is added
+    ajaxCall();
+
     if(student_array.length > 0) {
         var objPosition = 0;
         //For loop runs through the student_array and creates new rows and data adn appends them to the DOM
@@ -199,6 +202,29 @@ function reset () {
 }
 
 /**
+ * ajaxCall - calls to the learning fuze server through an AJAX call
+ */
+
+function ajaxCall () {
+    console.log('Request to server made.');
+    $.ajax({
+        dataType: 'json',
+        url: 's-apis.learningfuze.com/sgt/get',
+        input: '',
+        success: function(result) {
+            console.log('Successful AJAX call');
+            var server_to_local = $.parseJSON(result);
+            for(i=0; i<server_to_local.length; i++) {
+                student_array.push(server_to_local[i]);
+            }
+        },
+        error: function() {
+            console.log('AJAX failed on success.')
+        }
+    });
+}
+
+/**
  * Listen for the document to load and reset the data to the initial state
  */
 
@@ -217,20 +243,8 @@ $(document).ready(function () {
 
     //On click function for getting AJAX data
     $('.serverButton').on('click', function () {
-        console.log('click activated for server request');
-        $.ajax({
-            dataType: 'json',
-            url: 's-apis.learningfuze.com/sgt/get',
-            success: function(result) {
-            var server_to_local = $.parseJSON(result);
-            for(i=0; i<server_to_local.length; i++) {
-                student_array.push(server_to_local[i]);
-            }    
-        }
-        })
+        addStudentToDom();
     });
-
-
 
     //Calls addStudent function to add students from global array to the DOM
     addStudentToDom();
