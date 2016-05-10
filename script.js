@@ -39,13 +39,26 @@ function cancelClicked () {
  * @return undefined
  */
 function addStudent (name,course,grade) {
-    //Creates the student object and adds key values for object and pushes the object to the global student_array
+    var objectPosition;
     var student = {};
-    student.name = name;
-    student.course = course;
-    student.grade = grade;
-    student_array.push(student);
-    
+    if (student_array.length > 0) {
+
+        //Creates the student object and adds key values for object and pushes the object to the global student_array
+        student.name = name;
+        student.course = course;
+        student.grade = grade;
+        student_array.push(student);
+    }
+
+    else {
+        $('.noDataText').remove();
+
+        //Creates the student object and adds key values for object and pushes the object to the global student_array
+        student.name = name;
+        student.course = course;
+        student.grade = grade;
+        student_array.push(student);
+    }
     //Call functions for adding student to list and averaging the grades
     calculateAverage();
     updateStudentList(student);
@@ -68,7 +81,7 @@ function clearAddStudentForm () {
  * @returns {number}
  */
 function calculateAverage () {
-    //Local variables set to number for suma and average
+    //Local variables set to number for sums and average
     var sum = 0;
     var avg = 0;
     //for loop set to calculate the average for all grades
@@ -91,36 +104,17 @@ function updateData () {
  * updateStudentList - loops through global student array and appends each objects data into the student-list-container > list-body
  */
 function updateStudentList (student) {
-    //Variable created for DOM elements and appends them to the DOM
-    var row = $('<tr>');
-    var columnName = $('<td>').text(student_array[student_array.length-1].name);
-    var columnCourse = $('<td>').text(student_array[student_array.length-1].course);
-    var columnGrade = $('<td>').text(student_array[student_array.length-1].grade);
-    var deleteButton = $('<div>').css({
-        background: '#B33A3A',
-        height: '90%',
-        width: '40%',
-        color: '#ffffff',
-        textAlign: 'center',
-        borderRadius: '5%'
-    }).attr('onclick','delete()').text('delete');
-    var tdDelete = $('<td>').append(deleteButton);
-    //Appends the elements to the DOM
-    $(row).append(columnName,columnCourse,columnGrade,tdDelete);
-    $('tbody').append(row);
-}
-/**
- * addStudentToDom - take in a student object, create html elements from the values and then append the elements
- * into the .student_list tbody
- * @param studentObj
- */
-function addStudentToDom (student) {
-    //For loop runs through the student_array and creates new rows and data adn appends them to the DOM
-    for(i=0; i<student_array.length; i++) {
-        var row = $('<tr>');
-        var columnName = $('<td>').text(student_array[i].name);
-        var columnCourse = $('<td>').text(student_array[i].course);
-        var columnGrade = $('<td>').text(student_array[i].grade);
+    var objPosition;
+
+    if(student_array.length > 0) {
+
+        objPosition = student_array.length-1;
+
+        //Variable created for DOM elements and appends them to the DOM
+        var row = $('<tr>').addClass('studentRow');
+        var columnName = $('<td>').text(student_array[student_array.length-1].name);
+        var columnCourse = $('<td>').text(student_array[student_array.length-1].course);
+        var columnGrade = $('<td>').text(student_array[student_array.length-1].grade);
         var deleteButton = $('<div>').css({
             background: '#B33A3A',
             height: '90%',
@@ -128,10 +122,73 @@ function addStudentToDom (student) {
             color: '#ffffff',
             textAlign: 'center',
             borderRadius: '5%'
-        }).attr('onclick','delete()').text('delete');
+        }).attr('data-position',objPosition).addClass('deleteButton').text('delete');
         var tdDelete = $('<td>').append(deleteButton);
+        //Appends the elements to the DOM
         $(row).append(columnName,columnCourse,columnGrade,tdDelete);
         $('tbody').append(row);
+
+        objPosition++;
+    }
+
+    else {
+
+        objPosition = 0;
+
+        //Variable created for DOM elements and appends them to the DOM
+        var row = $('<tr>').addClass('studentRow');
+        var columnName = $('<td>').text(student_array[student_array.length-1].name);
+        var columnCourse = $('<td>').text(student_array[student_array.length-1].course);
+        var columnGrade = $('<td>').text(student_array[student_array.length-1].grade);
+        var deleteButton = $('<div>').css({
+            background: '#B33A3A',
+            height: '90%',
+            width: '40%',
+            color: '#ffffff',
+            textAlign: 'center',
+            borderRadius: '5%'
+        }).addClass('deleteButton').attr('data-position',objPosition).text('delete');
+        var tdDelete = $('<td>').append(deleteButton);
+        //Appends the elements to the DOM
+        $(row).append(columnName,columnCourse,columnGrade,tdDelete);
+        $('tbody').append(row);
+
+        objPosition++;
+    }
+}
+/**
+ * addStudentToDom - take in a student object, create html elements from the values and then append the elements
+ * into the .student_list tbody
+ * @param studentObj
+ */
+function addStudentToDom (student) {
+
+    if(student_array.length > 0) {
+        var objPosition = 0;
+        //For loop runs through the student_array and creates new rows and data adn appends them to the DOM
+        for(i=0; i<student_array.length; i++) {
+            var row = $('<tr>').addClass('studentRow');
+            var columnName = $('<td>').text(student_array[i].name);
+            var columnCourse = $('<td>').text(student_array[i].course);
+            var columnGrade = $('<td>').text(student_array[i].grade);
+            var deleteButton = $('<div>').css({
+                background: '#B33A3A',
+                height: '90%',
+                width: '40%',
+                color: '#ffffff',
+                textAlign: 'center',
+                borderRadius: '5%'
+            }).addClass('deleteButton').attr('data-position',objPosition).text('delete');
+            var tdDelete = $('<td>').append(deleteButton);
+            $(row).append(columnName,columnCourse,columnGrade,tdDelete);
+            $('tbody').append(row);
+            objPosition++;
+        }
+    }
+
+    else {
+        var noDataText = $('<h3>').text('No User Data Available').addClass('noDataText');
+        $('.student-list-container').append(noDataText);
     }
 }
 /**
@@ -149,6 +206,15 @@ $(document).ready(function () {
     studentName  = $('#studentName');
     studentCourse = $('#course');
     studentGrade = $('#studentGrade');
+    //On click function for deleting student from array and on the DOM
+    $('.table').on('click','.deleteButton', function () {
+        var position = $(this).attr('data-position');
+        var positionNumber = parseInt(position);
+        student_array.splice(positionNumber,1);
+        $('.studentRow').remove();
+        addStudentToDom();
+    });
 
+    //Calls addStudent function to add students from global array to the DOM
     addStudentToDom();
 });
