@@ -170,6 +170,7 @@ function addStudentToDom (student) {
 
     else {
         var noDataText = $('<h3>').text('No User Data Available').addClass('noDataText');
+        $('.noDataText').remove();
         $('.student-list-container').append(noDataText);
     }
 }
