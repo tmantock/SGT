@@ -40,9 +40,11 @@
             <input type="text" class="form-control" name="studentGrade" id="studentGrade"
                    placeholder="Student Grade">
         </div>
-        <button type="button" class="btn btn-success" onclick="addClicked()">Add</button>
-        <button type="button" class="btn btn-default" onclick="cancelClicked()">Cancel</button>
-        <button type="button" class ="btn btn-default serverButton">Get Data From Server</button>
+        <div class = "form-group">
+            <button type="button" class="col-md-6 btn btn-success" onclick="addClicked()">Add</button>
+            <button type="button" class="col-md-6 btn btn-default" onclick="cancelClicked()">Cancel</button>
+            <button type="button" class ="col-md-12 btn btn-primary serverButton">Get Data From Server</button>
+        </div>
     </div>
     <div class="student-list-container col-md-9">
         <table class="table student-list">

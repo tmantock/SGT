@@ -115,14 +115,7 @@ function updateStudentList (student) {
         var columnName = $('<td>').text(student_array[student_array.length-1].name);
         var columnCourse = $('<td>').text(student_array[student_array.length-1].course);
         var columnGrade = $('<td>').text(student_array[student_array.length-1].grade);
-        var deleteButton = $('<div>').css({
-            background: '#B33A3A',
-            height: '90%',
-            width: '40%',
-            color: '#ffffff',
-            textAlign: 'center',
-            borderRadius: '5%'
-        }).attr('data-position',objPosition).addClass('deleteButton').text('delete');
+        var deleteButton = $('<div>').attr('data-position',objPosition).addClass('deleteButton btn btn-danger').text('delete');
         var tdDelete = $('<td>').append(deleteButton);
         //Appends the elements to the DOM
         $(row).append(columnName,columnCourse,columnGrade,tdDelete);
@@ -140,14 +133,7 @@ function updateStudentList (student) {
         var columnName = $('<td>').text(student_array[student_array.length-1].name);
         var columnCourse = $('<td>').text(student_array[student_array.length-1].course);
         var columnGrade = $('<td>').text(student_array[student_array.length-1].grade);
-        var deleteButton = $('<div>').css({
-            background: '#B33A3A',
-            height: '90%',
-            width: '40%',
-            color: '#ffffff',
-            textAlign: 'center',
-            borderRadius: '5%'
-        }).addClass('deleteButton').attr('data-position',objPosition).text('delete');
+        var deleteButton = $('<button>').addClass('deleteButton btn btn-warning').attr('data-position',objPosition).text('delete');
         var tdDelete = $('<td>').append(deleteButton);
         //Appends the elements to the DOM
         $(row).append(columnName,columnCourse,columnGrade,tdDelete);
@@ -174,14 +160,7 @@ function addStudentToDom (student) {
             var columnName = $('<td>').text(student_array[i].name);
             var columnCourse = $('<td>').text(student_array[i].course);
             var columnGrade = $('<td>').text(student_array[i].grade);
-            var deleteButton = $('<div>').css({
-                background: '#B33A3A',
-                height: '90%',
-                width: '40%',
-                color: '#ffffff',
-                textAlign: 'center',
-                borderRadius: '5%'
-            }).addClass('deleteButton').attr('data-position',objPosition).text('delete');
+            var deleteButton = $('<button>').addClass('deleteButton btn btn-warning').attr('data-position',objPosition).text('delete');
             var tdDelete = $('<td>').append(deleteButton);
             $(row).append(columnName,columnCourse,columnGrade,tdDelete);
             $('tbody').append(row);
