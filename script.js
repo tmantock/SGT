@@ -215,6 +215,23 @@ $(document).ready(function () {
         addStudentToDom();
     });
 
+    //On click function for getting AJAX data
+    $('.serverButton').on('click', function () {
+        console.log('click activated for server request');
+        $.ajax({
+            dataType: 'json',
+            url: 's-apis.learningfuze.com/sgt/get',
+            success: function(result) {
+            var server_to_local = $.parseJSON(result);
+            for(i=0; i<server_to_local.length; i++) {
+                student_array.push(server_to_local[i]);
+            }    
+        }
+        })
+    });
+
+
+
     //Calls addStudent function to add students from global array to the DOM
     addStudentToDom();
 });
