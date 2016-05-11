@@ -46,25 +46,54 @@ function addStudent (name,course,grade) {
     }
 
     if(name == '' || course == '' || grade == '') {
-        $('.modal-title').text("No Input Error");
-        $('.modal-body p').text("Please enter your Name, Course, and Grade in the fields located to the right of the page");
-        $('.modal').modal('show');
+        if(name == '' && course == '') {
+            $('.modal-title').text("Input Error");
+            $('.modal-body p').text("Please enter your Name and Course in the field located to the right of the page");
+            $('.modal').modal('show');
+        }
+        else if(course == '' && grade == '') {
+            $('.modal-title').text("Input Error");
+            $('.modal-body p').text("Please enter your Course and Grade in the field located to the right of the page");
+            $('.modal').modal('show');
+        }
+        else if(name == '' && grade == '') {
+            $('.modal-title').text("Input Error");
+            $('.modal-body p').text("Please enter your Name and Grade in the field located to the right of the page");
+            $('.modal').modal('show');
+        }
+        else if(name == '') {
+            $('.modal-title').text("Name Error");
+            $('.modal-body p').text("Please enter your Name in the field located to the right of the page");
+            $('.modal').modal('show');
+        }
+        else if(course == '') {
+            $('.modal-title').text("Course Error");
+            $('.modal-body p').text("Please enter your Course in the field located to the right of the page");
+            $('.modal').modal('show');
+        }
+        else if(grade == '') {
+            $('.modal-title').text("Grade Error");
+            $('.modal-body p').text("Please enter your Grade in the field located to the right of the page");
+            $('.modal').modal('show');
+        }
     }
 
-    //Creates the student object and adds key values for object and pushes the object to the global student_array
-    var student = {};
-    student.name = name;
-    student.course = course;
-    student.grade = grade;
-    student_array.push(student);
+    else {
+        //Creates the student object and adds key values for object and pushes the object to the global student_array
+        var student = {};
+        student.name = name;
+        student.course = course;
+        student.grade = grade;
+        student_array.push(student);
 
-    //Call functions for adding student to list and averaging the grades
-    calculateAverage();
-    updateStudentList();
+        //Call functions for adding student to list and averaging the grades
+        calculateAverage();
+        updateStudentList();
 
-    //Clear out inputs after entered in
-    clearAddStudentForm();
-    return student;
+        //Clear out inputs after entered in
+        clearAddStudentForm();
+        return student;
+    }
 }
 /**
  * clearAddStudentForm - clears out the form values based on inputIds variable
@@ -370,14 +399,19 @@ $(document).ready(function () {
     // //Calls addStudent to populate the DOM with the Global Array or put teh No User Data on the page
     updateStudentList();
 
+    //onkeydown handler for only allowing numbers and editing to be entered into the Grade input field
     studentGrade.on('keydown', function (event) {
+        //variable x set to the keyCode of the button that has been clicked
         var x = event.keyCode;
+        //switch statement declared to determine which of the editing buttons i.e delete should be allowed to be used while in the Grade input field
         switch (x) {
+            case 13:
+                addClicked();
+                break;
             case 46:
             case 8:
             case 9:
             case 27:
-            case 13:
             case 110:
             case 190:
             case 39:
@@ -388,12 +422,47 @@ $(document).ready(function () {
             break;
         }
 
+        //if statement declared to allow Command + R to pressed to refresh the page from input field
         if(x == 82 && event.metaKey === true ) {
             return;
         }
 
+        //if statement declared to for character that isn't a number
         if((x < 48 || x > 57) && (x < 96 || x > 105)) {
+            //jQuery method for for preventing the event from continuing its normal process
             event.preventDefault();
         }
     });
+
+    studentName.on('keydown', function (event) {
+        //variable x set to the keyCode of the button that has been clicked
+       var x = event.keyCode;
+        //if statement declared for all number keyCode values
+        if(x >= 48 && x <= 57) {
+            //jQuery method for preventing the event from continuing its normal process
+            event.preventDefault();
+        }
+
+        //Switch statement declared for all punctuation and operator keyCodes
+        switch(x) {
+            case 192:
+            case 189:
+            case 187:
+            case 219:
+            case 221:
+            case 220:
+            case 186:
+            case 222:
+            case 188:
+            case 190:
+            case 191:
+                //jQuery method for preventing the event from continuing its normal process
+                event.preventDefault();
+                break;
+        }
+    });
+
+    // $('body').on('keydown', function (event) {
+    //
+    // });
 });
