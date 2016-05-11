@@ -39,13 +39,14 @@ function cancelClicked () {
  * @return undefined
  */
 function addStudent (name,course,grade) {
-
-    var student = {};
+    
+    //Conditional for determining if the No User Data text should be deleted
     if (student_array.length === 0) {
         $('.noDataText').remove();
     }
 
     //Creates the student object and adds key values for object and pushes the object to the global student_array
+    var student = {};
     student.name = name;
     student.course = course;
     student.grade = grade;
@@ -96,12 +97,14 @@ function updateData () {
  * updateStudentList - loops through global student array and appends each objects data into the student-list-container > list-body
  */
 function updateStudentList () {
+    //Removes the Student Row Body from the DOM before appending the updated list
     $('.studentRow').remove();
 
+    //For loop for pushing the indexes of the global array to the addStudentToDOM function for DOM creation
     for(i=0; i<student_array.length; i++) {
         addStudentToDom(student_array[i]);
     }
-
+    //if statement to determine if the No User Data Message should be added
     if(student_array.length === 0) {
         addEmptyTableMessage();
     }
@@ -112,30 +115,32 @@ function updateStudentList () {
  * @param studentObj
  */
 function addStudentToDom (student) {
-    // //Makes call during addStudentToDom to make sure the most up-to-date list is added
-    // ajaxCall();
-
+    
+    //if statement to determine if the No User Data Message should be added
     if(student_array.length === 0) {
         addEmptyTableMessage();
     }
 
-    //For loop runs through the student_array and creates new rows and data adn appends them to the DOM
+    //DOM creation for all elements to be added to the DOM
     var row = $('<tr>').addClass('studentRow');
     var columnName = $('<td>').text(student.name);
     var columnCourse = $('<td>').text(student.course);
     var columnGrade = $('<td>').text(student.grade);
     var deleteButton = $('<button>').addClass('deleteButton btn btn-danger').text('delete');
 
+    //Delete Closure attached to the element at the time of creation
     deleteButton.on('click',function () {
         console.log(student_array[student_array.indexOf(student)]);
         student_array.splice(student_array.indexOf(student),1);
+        //Calls  updateStudentList to repopulate the DOM
         updateStudentList();
     });
 
     var tdDelete = $('<td>').append(deleteButton);
     $(row).append(columnName,columnCourse,columnGrade,tdDelete);
     $('tbody').append(row);
-
+    
+    //Removes the No User Data Text
     $('.noDataText').remove();
 
 }
@@ -147,8 +152,11 @@ function reset () {
 }
 
 function addEmptyTableMessage () {
+    //declare variable for displaying the No User Data Available Text
     var noDataText = $('<h3>').text('No User Data Available').addClass('noDataText');
+    //Removes the No User Data Text if already on the DOM
     $('.noDataText').remove();
+    //Appends the text to the DOM
     $('.student-list-container').append(noDataText);
 }
 
@@ -165,15 +173,20 @@ function ajaxCall () {
         url: 'http://s-apis.learningfuze.com/sgt/get',
         success: function (result) {
             console.log('Successful AJAX call');
+            //sets result to a usable local variable
             var server_to_local = result;
             console.log('Server to Local' , server_to_local);
+            //Get the array from the object relieved from the server
             var resultData = server_to_local.data;
             console.log(resultData);
+            //Loop through the server array and push the indexes to the local global student array
             for(i=0; i<resultData.length; i++) {
                  student_array.push(resultData[i]);
             }
+            //Calls function to update the student list
             updateStudentList();
         },
+        //AJAX for if there is an error
         error: function () {
             console.log('AJAX failed on success.');
         }
@@ -196,6 +209,6 @@ $(document).ready(function () {
         ajaxCall();
     });
 
-    // //Calls addStudent function to add students from global array to the DOM
+    // //Calls addStudent to populate the DOM with the Global Array or put teh No User Data on the page
     addStudentToDom();
 });
