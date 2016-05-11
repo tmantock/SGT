@@ -45,6 +45,12 @@ function addStudent (name,course,grade) {
         $('.noDataText').remove();
     }
 
+    if(name == '' || course == '' || grade == '') {
+        $('.modal-title').text("No Input Error");
+        $('.modal-body p').text("Please enter your Name, Course, and Grade in the fields located to the right of the page");
+        $('.modal').modal('show');
+    }
+
     //Creates the student object and adds key values for object and pushes the object to the global student_array
     var student = {};
     student.name = name;
@@ -123,6 +129,14 @@ function addStudentToDom (student) {
 
     //DOM creation for all elements to be added to the DOM
     var row = $('<tr>').addClass('studentRow');
+    //Conditionals for determining which visual que to add to the DOM element row for grades that are in danger of or are failing
+    if(parseInt(student.grade) <= 59) {
+         row.addClass('danger');
+    }
+    else if(parseInt(student.grade) >= 60 && parseInt(student.grade) <= 69) {
+        row.addClass('warning');
+    }
+
     var columnName = $('<td>').text(student.name);
     var columnCourse = $('<td>').text(student.course);
     var columnGrade = $('<td>').text(student.grade);
@@ -191,7 +205,151 @@ function ajaxCall () {
             console.log('AJAX failed on success.');
         }
     });
+}
+/*
+*Begin Sort functions for sorting the global array given the key = value pair
+ */
+function arraySortByNameAscending () {
+    //Begin sort function
+    student_array.sort(function (a,b){
+        //Variables set to the name value of the object and sets it to lowercase to make sorting simpler
+        var nameA = a.name.toLowerCase();
+        var nameB = b.name.toLowerCase();
 
+        //Conditions for determining if the objects being evaluated are less than or greater than each other then assigns the appropriate position
+        if(nameA < nameB) {
+            //if nameA is less than nameB / 0 then return -1
+            //if nameA is less than nameB then nameA should be placed before nameB
+            return -1;
+        }
+        else if(nameA > nameB) {
+            //if nameA is greater than nameB / 0 then return 1
+            //if nameA is greater than nameB then nameA should be placed after nameB
+            return 1;
+        }
+        else {
+            //if nameA and nameB are equal then return 0
+            return 0;
+        }
+    });
+    //delete student rows on the DOM
+    $('.studentRow').remove();
+    //Call updateStudentList with the newly sorted global array
+    updateStudentList();
+}
+
+function arraySortByNameDescending () {
+    //Begin sort function
+    student_array.sort(function (a,b){
+        //Variables set to the name value of the object and sets it to lowercase to make sorting simpler
+        var nameA = a.name.toLowerCase();
+        var nameB = b.name.toLowerCase();
+
+        //Conditions for determining if the objects being evaluated are less than or greater than each other then assigns the appropriate position
+        if(nameA > nameB) {
+            //if nameA is greater than nameB / 0 then return -1
+            //if nameA is greater than nameB then nameA should be placed before nameB
+            return -1;
+        }
+        else if(nameA < nameB) {
+            //if nameA is less than nameB / 0 then return 1
+            //if nameA is less than nameB then nameA should be placed after nameB
+            return 1;
+        }
+        else {
+            //if nameA and nameB are equal then return 0
+            return 0;
+        }
+    });
+    //delete student rows on the DOM
+    $('.studentRow').remove();
+    //Call updateStudentList with the newly sorted global array
+    updateStudentList();
+}
+
+function arraySortByCourseAscending () {
+    //Begin sort function
+    student_array.sort(function (a,b){
+        //Variables set to the course value of the object and sets it to lowercase to make sorting simpler
+        var courseA = a.course.toLowerCase();
+        var courseB = b.course.toLowerCase();
+
+        //Conditions for determining if the objects being evaluated are less than or greater than each other then assigns the appropriate position
+        if(courseA < courseB) {
+            //if courseA is less than courseB / 0 then return -1
+            //if courseA is less than courseB then courseA should be placed before courseB
+            return -1;
+        }
+        else if(courseA > courseB) {
+            //if courseA is greater than courseB / 0 then return 1
+            //if courseA is greater than courseB then courseA should be placed after courseB
+            return 1;
+        }
+        else {
+            //if courseA and courseB are equal then return 0
+            return 0;
+        }
+    });
+    //delete student rows on the DOM
+    $('.studentRow').remove();
+    //Call updateStudentList with the newly sorted global array
+    updateStudentList();
+}
+
+function arraySortByCourseDescending () {
+    //Begin sort function
+    student_array.sort(function (a,b){
+        //Variables set to the course value of the object and sets it to lowercase to make sorting simpler
+        var courseA = a.course.toLowerCase();
+        var courseB = b.course.toLowerCase();
+
+        //Conditions for determining if the objects being evaluated are less than or greater than each other then assigns the appropriate position
+        if(courseA > courseB) {
+            //if courseA is greater than courseB / 0 then return -1
+            //if courseA is greater than courseB then courseA should be placed before courseB
+            return -1;
+        }
+        else if(courseA < courseB) {
+            //if courseA is less than courseB / 0 then return 1
+            //if courseA is less than courseB then courseA should be placed after courseB
+            return 1;
+        }
+        else {
+            //if courseA and courseB are equal then return 0
+            //courseA and CourseB will maintain their positions at that time
+            return 0;
+        }
+    });
+    //delete student rows on the DOM
+    $('.studentRow').remove();
+    //Call updateStudentList with the newly sorted global array
+    updateStudentList();
+}
+
+function arraySortByGradeAscending () {
+    //Begin sort function
+    student_array.sort(function(a,b) {
+        //return the first object grade value - the second object grade value
+        //if a - b is greater than 0 then b is a number that is smaller than a and will be placed before a in the array
+        return a.grade-b.grade;
+    });
+    //delete student rows on the DOM
+    $('.studentRow').remove();
+    //Call updateStudentList with the newly sorted global array
+    updateStudentList();
+}
+
+function arraySortByGradeDescending () {
+    //Begin sort function
+    student_array.sort(function(a,b) {
+        //return the second object grade value - the first object grade value
+        //if b - a is greater than 0 then a is a number that is smaller than b and will be placed before b in the array
+        return b.grade-a.grade;
+    });
+    //delete student rows on the DOM
+    $('.studentRow').remove();
+    //Call updateStudentList with the newly sorted global array
+    updateStudentList();
 }
 
 
@@ -211,4 +369,31 @@ $(document).ready(function () {
 
     // //Calls addStudent to populate the DOM with the Global Array or put teh No User Data on the page
     updateStudentList();
+
+    studentGrade.on('keydown', function (event) {
+        var x = event.keyCode;
+        switch (x) {
+            case 46:
+            case 8:
+            case 9:
+            case 27:
+            case 13:
+            case 110:
+            case 190:
+            case 39:
+            case 38:
+            case 37:
+            case 40:
+                return;
+            break;
+        }
+
+        if(x == 82 && event.metaKey === true ) {
+            return;
+        }
+
+        if((x < 48 || x > 57) && (x < 96 || x > 105)) {
+            event.preventDefault();
+        }
+    });
 });
