@@ -1,7 +1,7 @@
 /**
  * Define all global variables here
  */
-var student_array = [];
+var student_array = [{name:'Joe',course:'History',grade:'98'},{name:'Jane',course:'Art',grade:'100'},{name:'Jish',course:'Economics',grade:'95'},{name:'Jessica',course:'Algebra',grade:'87'}];
 var studentName;
 var studentCourse;
 var studentGrade;
@@ -210,5 +210,5 @@ $(document).ready(function () {
     });
 
     // //Calls addStudent to populate the DOM with the Global Array or put teh No User Data on the page
-    addStudentToDom();
+    updateStudentList();
 });
