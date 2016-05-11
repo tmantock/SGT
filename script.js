@@ -244,12 +244,6 @@ function addStudentToDom (student) {
         }
     });
 
-    // (columnGrade).on('keydown', function (event) {
-    //     if(event.keyCode == 13) {
-    //
-    //     }
-    // });
-
     var tdDelete = $('<td>').append(editButton,deleteButton);
     $(row).append(columnName,columnCourse,columnGrade,tdDelete);
     $('tbody').append(row);
@@ -361,8 +355,6 @@ function ajaxDelete (student) {
         }
 
     });
-
-
 }
 
 /*
@@ -525,7 +517,8 @@ $(document).ready(function () {
     $('.serverButton').on('click', function () {
         ajaxCall();
     });
-
+    //Calls ajax sever function to populate the student array with the objects already in the server
+    ajaxCall();
     // //Calls addStudent to populate the DOM with the Global Array or put teh No User Data on the page
     updateStudentList();
 
@@ -596,10 +589,4 @@ $(document).ready(function () {
                 break;
         }
     });
-
-    ajaxCall();
-
-    // $('body').on('keydown', function (event) {
-    //
-    // });
 });
