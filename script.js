@@ -39,29 +39,21 @@ function cancelClicked () {
  * @return undefined
  */
 function addStudent (name,course,grade) {
-    var objectPosition;
+
     var student = {};
-    if (student_array.length > 0) {
-
-        //Creates the student object and adds key values for object and pushes the object to the global student_array
-        student.name = name;
-        student.course = course;
-        student.grade = grade;
-        student_array.push(student);
-    }
-
-    else {
+    if (student_array.length === 0) {
         $('.noDataText').remove();
-
-        //Creates the student object and adds key values for object and pushes the object to the global student_array
-        student.name = name;
-        student.course = course;
-        student.grade = grade;
-        student_array.push(student);
     }
+
+    //Creates the student object and adds key values for object and pushes the object to the global student_array
+    student.name = name;
+    student.course = course;
+    student.grade = grade;
+    student_array.push(student);
+
     //Call functions for adding student to list and averaging the grades
     calculateAverage();
-    updateStudentList(student);
+    updateStudentList();
 
     //Clear out inputs after entered in
     clearAddStudentForm();
@@ -103,43 +95,15 @@ function updateData () {
 /**
  * updateStudentList - loops through global student array and appends each objects data into the student-list-container > list-body
  */
-function updateStudentList (student) {
-    var objPosition;
+function updateStudentList () {
+    $('.studentRow').remove();
 
-    if(student_array.length > 0) {
-
-        objPosition = student_array.length-1;
-
-        //Variable created for DOM elements and appends them to the DOM
-        var row = $('<tr>').addClass('studentRow');
-        var columnName = $('<td>').text(student_array[student_array.length-1].name);
-        var columnCourse = $('<td>').text(student_array[student_array.length-1].course);
-        var columnGrade = $('<td>').text(student_array[student_array.length-1].grade);
-        var deleteButton = $('<div>').attr('data-position',objPosition).addClass('deleteButton btn btn-danger').text('delete');
-        var tdDelete = $('<td>').append(deleteButton);
-        //Appends the elements to the DOM
-        $(row).append(columnName,columnCourse,columnGrade,tdDelete);
-        $('tbody').append(row);
-
-        objPosition++;
+    for(i=0; i<student_array.length; i++) {
+        addStudentToDom(student_array[i]);
     }
 
-    else {
-
-        objPosition = 0;
-
-        //Variable created for DOM elements and appends them to the DOM
-        var row = $('<tr>').addClass('studentRow');
-        var columnName = $('<td>').text(student_array[student_array.length-1].name);
-        var columnCourse = $('<td>').text(student_array[student_array.length-1].course);
-        var columnGrade = $('<td>').text(student_array[student_array.length-1].grade);
-        var deleteButton = $('<button>').addClass('deleteButton btn btn-warning').attr('data-position',objPosition).text('delete');
-        var tdDelete = $('<td>').append(deleteButton);
-        //Appends the elements to the DOM
-        $(row).append(columnName,columnCourse,columnGrade,tdDelete);
-        $('tbody').append(row);
-
-        objPosition++;
+    if(student_array.length === 0) {
+        addEmptyTableMessage();
     }
 }
 /**
@@ -148,37 +112,44 @@ function updateStudentList (student) {
  * @param studentObj
  */
 function addStudentToDom (student) {
+    // //Makes call during addStudentToDom to make sure the most up-to-date list is added
+    // ajaxCall();
 
-    //Makes call during addStudentToDom to make sure the most up-to-date list is added
-    ajaxCall();
-
-    if(student_array.length > 0) {
-        var objPosition = 0;
-        //For loop runs through the student_array and creates new rows and data adn appends them to the DOM
-        for(i=0; i<student_array.length; i++) {
-            var row = $('<tr>').addClass('studentRow');
-            var columnName = $('<td>').text(student_array[i].name);
-            var columnCourse = $('<td>').text(student_array[i].course);
-            var columnGrade = $('<td>').text(student_array[i].grade);
-            var deleteButton = $('<button>').addClass('deleteButton btn btn-warning').attr('data-position',objPosition).text('delete');
-            var tdDelete = $('<td>').append(deleteButton);
-            $(row).append(columnName,columnCourse,columnGrade,tdDelete);
-            $('tbody').append(row);
-            objPosition++;
-        }
+    if(student_array.length === 0) {
+        addEmptyTableMessage();
     }
 
-    else {
-        var noDataText = $('<h3>').text('No User Data Available').addClass('noDataText');
-        $('.noDataText').remove();
-        $('.student-list-container').append(noDataText);
-    }
+    //For loop runs through the student_array and creates new rows and data adn appends them to the DOM
+    var row = $('<tr>').addClass('studentRow');
+    var columnName = $('<td>').text(student.name);
+    var columnCourse = $('<td>').text(student.course);
+    var columnGrade = $('<td>').text(student.grade);
+    var deleteButton = $('<button>').addClass('deleteButton btn btn-danger').text('delete');
+
+    deleteButton.on('click',function () {
+        console.log(student_array[student_array.indexOf(student)]);
+        student_array.splice(student_array.indexOf(student),1);
+        updateStudentList();
+    });
+
+    var tdDelete = $('<td>').append(deleteButton);
+    $(row).append(columnName,columnCourse,columnGrade,tdDelete);
+    $('tbody').append(row);
+
+    $('.noDataText').remove();
+
 }
 /**
  * reset - resets the application to initial state. Global variables reset, DOM get reset to initial load state
  */
 function reset () {
     
+}
+
+function addEmptyTableMessage () {
+    var noDataText = $('<h3>').text('No User Data Available').addClass('noDataText');
+    $('.noDataText').remove();
+    $('.student-list-container').append(noDataText);
 }
 
 /**
@@ -188,21 +159,28 @@ function reset () {
 function ajaxCall () {
     console.log('Request to server made.');
     $.ajax({
-        dataType: 'json',
-        url: 's-apis.learningfuze.com/sgt/get',
-        input: '',
-        success: function(result) {
+        dataType: 'JSON',
+        data: {api_key: 'j3HeUr1YdJ'},
+        method: 'POST',
+        url: 'http://s-apis.learningfuze.com/sgt/get',
+        success: function (result) {
             console.log('Successful AJAX call');
-            var server_to_local = $.parseJSON(result);
-            for(i=0; i<server_to_local.length; i++) {
-                student_array.push(server_to_local[i]);
+            var server_to_local = result;
+            console.log('Server to Local' , server_to_local);
+            var resultData = server_to_local.data;
+            console.log(resultData);
+            for(i=0; i<resultData.length; i++) {
+                 student_array.push(resultData[i]);
             }
+            updateStudentList();
         },
-        error: function() {
-            console.log('AJAX failed on success.')
+        error: function () {
+            console.log('AJAX failed on success.');
         }
     });
+
 }
+
 
 /**
  * Listen for the document to load and reset the data to the initial state
@@ -212,20 +190,12 @@ $(document).ready(function () {
     studentName  = $('#studentName');
     studentCourse = $('#course');
     studentGrade = $('#studentGrade');
-    //On click function for deleting student from array and on the DOM
-    $('.table').on('click','.deleteButton', function () {
-        var position = $(this).attr('data-position');
-        var positionNumber = parseInt(position);
-        student_array.splice(positionNumber,1);
-        $('.studentRow').remove();
-        addStudentToDom();
-    });
 
     //On click function for getting AJAX data
     $('.serverButton').on('click', function () {
-        addStudentToDom();
+        ajaxCall();
     });
 
-    //Calls addStudent function to add students from global array to the DOM
+    // //Calls addStudent function to add students from global array to the DOM
     addStudentToDom();
 });
