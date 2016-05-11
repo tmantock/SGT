@@ -1,7 +1,8 @@
 /**
  * Define all global variables here
  */
-var student_array = [{name:'Joe',course:'History',grade:'98',edit:'false'},{name:'Jane',course:'Art',grade:'100',edit:'false'},{name:'Jish',course:'Economics',grade:'95',edit:'false'},{name:'Jessica',course:'Algebra',grade:'87',edit:'false'}];
+var student_array = [//{name:'Joe',course:'History',grade:'98',edit:'false'}//,{name:'Jane',course:'Art',grade:'100',edit:'false'},{name:'Jish',course:'Economics',grade:'95',edit:'false'},{name:'Jessica',course:'Algebra',grade:'87',edit:'false'}
+];
 var studentName;
 var studentCourse;
 var studentGrade;
@@ -86,12 +87,19 @@ function addStudent (name,course,grade) {
         student.name = name;
         student.course = course;
         student.grade = grade;
+        student.id = 0;
         student.edit = false;
-        student_array.push(student);
+
+        ajaxCreate(student);
 
         //Call functions for adding student to list and averaging the grades
+        student_array.push(student);
+
         calculateAverage();
         updateStudentList();
+
+
+
 
         //Clear out inputs after entered in
         clearAddStudentForm();
@@ -214,7 +222,7 @@ function addStudentToDom (student) {
     deleteButton.on('click',function () {
         student_array.splice(student_array.indexOf(student),1);
         //Calls  updateStudentList to repopulate the DOM
-        updateStudentList();
+        ajaxDelete(student);
     });
 
     //Edit Closure attached to the element at the time of creation
@@ -298,6 +306,65 @@ function ajaxCall () {
         }
     });
 }
+
+/**
+ * ajaxCreate - function to create an element through AJAX to the server
+ */
+function ajaxCreate (student) {
+    console.log('Message to server request has been made');
+    $.ajax({
+        dataType: 'JSON',
+        url: 'http://s-apis.learningfuze.com/sgt/create',
+        method: 'POST',
+        data: {api_key: 'j3HeUr1YdJ',
+                name: student.name,
+                course: student.course,
+                grade: student.grade},
+        success: function(response) {
+            var result = response;
+            student.id = result.new_id;
+            console.log(student);
+        },
+        error: function () {
+            console.log('Error declared on the AJAX function');
+        }
+
+    });
+}
+
+/**
+ * ajaxDelete - function to delete an object ion the server through AJAX
+ */
+
+function ajaxDelete (student) {
+    console.log('Message to server request has been made');
+    $.ajax({
+        dataType: 'JSON',
+        url: 'http://s-apis.learningfuze.com/sgt/delete',
+        method: 'POST',
+        data: {api_key: 'j3HeUr1YdJ',
+               student_id: student.id},
+        success: function(result) {
+            console.log(result);
+            console.log('AJAX Delete function success');
+            if (result.errors) {
+                $('.modal-title').text("Delete Error");
+                $('.modal-body p').text(result.errors[0]);
+                $('.modal').modal('show');
+            }
+            else {
+                updateStudentList();
+            }
+        },
+        error: function () {
+            console.log('Error declared on the AJAX function');
+        }
+
+    });
+
+
+}
+
 /*
 *Begin Sort functions for sorting the global array given the key = value pair
  */
@@ -529,6 +596,8 @@ $(document).ready(function () {
                 break;
         }
     });
+
+    ajaxCall();
 
     // $('body').on('keydown', function (event) {
     //
