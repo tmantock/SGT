@@ -1,10 +1,11 @@
 /**
  * Define all global variables here
  */
-var student_array = [{name:'Joe',course:'History',grade:'98'},{name:'Jane',course:'Art',grade:'100'},{name:'Jish',course:'Economics',grade:'95'},{name:'Jessica',course:'Algebra',grade:'87'}];
+var student_array = [{name:'Joe',course:'History',grade:'98',edit:'false'},{name:'Jane',course:'Art',grade:'100',edit:'false'},{name:'Jish',course:'Economics',grade:'95',edit:'false'},{name:'Jessica',course:'Algebra',grade:'87',edit:'false'}];
 var studentName;
 var studentCourse;
 var studentGrade;
+var firstClick = true;
 /**
  * student_array - global array to hold student objects
  * @type {Array}
@@ -85,6 +86,7 @@ function addStudent (name,course,grade) {
         student.name = name;
         student.course = course;
         student.grade = grade;
+        student.edit = false;
         student_array.push(student);
 
         //Call functions for adding student to list and averaging the grades
@@ -166,21 +168,82 @@ function addStudentToDom (student) {
     else if(parseInt(student.grade) >= 60 && parseInt(student.grade) <= 69) {
         row.addClass('warning');
     }
+    var columnName;
+    var columnCourse;
+    var columnGrade;
 
-    var columnName = $('<td>').text(student.name);
-    var columnCourse = $('<td>').text(student.course);
-    var columnGrade = $('<td>').text(student.grade);
+    if(student.edit == 'true') {
+        columnName = $('<td>');
+        var nameInput = $('<input>').attr({
+            type: "text",
+            class: "form-control",
+            name: "studentName",
+            id: "tempStudentName"
+        }).val(student.name);
+        columnCourse = $('<td>');
+        var courseInput =$('<input>').attr({
+            type: "text",
+            class: "form-control",
+            name: "studentName",
+            id: "tempStudentCourse"
+        }).val(student.course);
+        columnGrade = $('<td>');
+        var gradeInput =$('<input>').attr({
+            type: "text",
+            class: "form-control",
+            name: "studentName",
+            id: "tempStudentGrade"
+        }).val(student.grade);
+
+        columnName.append(nameInput);
+        columnCourse.append(courseInput);
+        columnGrade.append(gradeInput);
+    }
+
+    else {
+        columnName = $('<td>').text(student.name);
+        columnCourse = $('<td>').text(student.course);
+        columnGrade = $('<td>').text(student.grade);
+
+    }
+
     var deleteButton = $('<button>').addClass('deleteButton btn btn-danger').text('delete');
+    var editButton = $('<button>').addClass('editButton btn btn-primary').text('edit');
+
 
     //Delete Closure attached to the element at the time of creation
     deleteButton.on('click',function () {
-        console.log(student_array[student_array.indexOf(student)]);
         student_array.splice(student_array.indexOf(student),1);
         //Calls  updateStudentList to repopulate the DOM
         updateStudentList();
     });
 
-    var tdDelete = $('<td>').append(deleteButton);
+    //Edit Closure attached to the element at the time of creation
+    editButton.on('click', function () {
+
+        if(firstClick === true) {
+            student.edit = 'true';
+            updateStudentList();
+            firstClick = false;
+        }
+
+        else if(firstClick === false) {
+            student.name = $('#tempStudentName').val();
+            student.course = $('#tempStudentCourse').val();
+            student.grade = $('#tempStudentGrade').val();
+            student.edit = 'false';
+            updateStudentList();
+            firstClick = true;
+        }
+    });
+
+    // (columnGrade).on('keydown', function (event) {
+    //     if(event.keyCode == 13) {
+    //
+    //     }
+    // });
+
+    var tdDelete = $('<td>').append(editButton,deleteButton);
     $(row).append(columnName,columnCourse,columnGrade,tdDelete);
     $('tbody').append(row);
     
@@ -457,6 +520,11 @@ $(document).ready(function () {
             case 188:
             case 190:
             case 191:
+            case 111:
+            case 106:
+            case 109:
+            case 107:
+            case 110:
                 //jQuery method for preventing the event from continuing its normal process
                 event.preventDefault();
                 break;
