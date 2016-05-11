@@ -194,6 +194,7 @@ function addStudentToDom (student) {
             name: "studentName",
             id: "tempStudentGrade"
         }).val(student.grade);
+        var editButton = $('<button>').addClass('editButton btn btn-primary').attr('onclick','editRow()').text('edit');
 
         columnName.append(nameInput);
         columnCourse.append(courseInput);
@@ -204,11 +205,11 @@ function addStudentToDom (student) {
         columnName = $('<td>').text(student.name);
         columnCourse = $('<td>').text(student.course);
         columnGrade = $('<td>').text(student.grade);
+        var editButton = $('<button>').addClass('editButton btn btn-primary').text('edit');
 
     }
 
     var deleteButton = $('<button>').addClass('deleteButton btn btn-danger').text('delete');
-    var editButton = $('<button>').addClass('editButton btn btn-primary').text('edit');
 
 
     //Delete Closure attached to the element at the time of creation
