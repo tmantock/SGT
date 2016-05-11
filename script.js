@@ -44,7 +44,8 @@ function addStudent (name,course,grade) {
     if (student_array.length === 0) {
         $('.noDataText').remove();
     }
-
+    
+    //Conditional and nested conditionals for determing which message to display to user given the input fields that are blank
     if(name == '' || course == '' || grade == '') {
         if(name == '' && course == '') {
             $('.modal-title').text("Input Error");
