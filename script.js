@@ -1,8 +1,9 @@
 /**
  * Define all global variables here
  */
-var student_array = [//{name:'Joe',course:'History',grade:'98',edit:'false'}//,{name:'Jane',course:'Art',grade:'100',edit:'false'},{name:'Jish',course:'Economics',grade:'95',edit:'false'},{name:'Jessica',course:'Algebra',grade:'87',edit:'false'}
-];
+var student_array;
+var studentNameArrayOne;
+var studentNameArrayTwo;
 var studentName;
 var studentCourse;
 var studentGrade;
@@ -96,7 +97,7 @@ function addStudent (name,course,grade) {
         student_array.push(student);
 
         calculateAverage();
-        updateStudentList();
+
 
 
 
@@ -273,11 +274,14 @@ function addEmptyTableMessage () {
  */
 
 function ajaxCall () {
+    var loader = $('<i>').addClass('fa fa-spinner fa-spin');
+    student_array = [];
     console.log('Request to server made.');
     $.ajax({
         dataType: 'JSON',
         data: {api_key: 'j3HeUr1YdJ'},
         method: 'POST',
+        cache: 'false',
         url: 'http://s-apis.learningfuze.com/sgt/get',
         success: function (result) {
             console.log('Successful AJAX call');
@@ -293,6 +297,11 @@ function ajaxCall () {
             }
             //Calls function to update the student list
             updateStudentList();
+            namePush(student_array);
+            $('.serverButton').html(loader);
+            setTimeout(function () {
+                $('.serverButton').html('Get Data From Server');
+            },500);
         },
         //AJAX for if there is an error
         error: function () {
@@ -339,7 +348,6 @@ function ajaxDelete (student) {
         data: {api_key: 'j3HeUr1YdJ',
                student_id: student.id},
         success: function(result) {
-            console.log(result);
             console.log('AJAX Delete function success');
             if (result.errors) {
                 $('.modal-title').text("Delete Error");
@@ -360,9 +368,9 @@ function ajaxDelete (student) {
 /*
 *Begin Sort functions for sorting the global array given the key = value pair
  */
-function arraySortByNameAscending () {
+function arraySortByNameAscending (array) {
     //Begin sort function
-    student_array.sort(function (a,b){
+    array.sort(function (a,b){
         //Variables set to the name value of the object and sets it to lowercase to make sorting simpler
         var nameA = a.name.toLowerCase();
         var nameB = b.name.toLowerCase();
@@ -389,9 +397,9 @@ function arraySortByNameAscending () {
     updateStudentList();
 }
 
-function arraySortByNameDescending () {
+function arraySortByNameDescending (array) {
     //Begin sort function
-    student_array.sort(function (a,b){
+    array.sort(function (a,b){
         //Variables set to the name value of the object and sets it to lowercase to make sorting simpler
         var nameA = a.name.toLowerCase();
         var nameB = b.name.toLowerCase();
@@ -418,9 +426,9 @@ function arraySortByNameDescending () {
     updateStudentList();
 }
 
-function arraySortByCourseAscending () {
+function arraySortByCourseAscending (array) {
     //Begin sort function
-    student_array.sort(function (a,b){
+    array.sort(function (a,b){
         //Variables set to the course value of the object and sets it to lowercase to make sorting simpler
         var courseA = a.course.toLowerCase();
         var courseB = b.course.toLowerCase();
@@ -447,9 +455,9 @@ function arraySortByCourseAscending () {
     updateStudentList();
 }
 
-function arraySortByCourseDescending () {
+function arraySortByCourseDescending (array) {
     //Begin sort function
-    student_array.sort(function (a,b){
+    array.sort(function (a,b){
         //Variables set to the course value of the object and sets it to lowercase to make sorting simpler
         var courseA = a.course.toLowerCase();
         var courseB = b.course.toLowerCase();
@@ -477,9 +485,9 @@ function arraySortByCourseDescending () {
     updateStudentList();
 }
 
-function arraySortByGradeAscending () {
+function arraySortByGradeAscending (array) {
     //Begin sort function
-    student_array.sort(function(a,b) {
+    array.sort(function(a,b) {
         //return the first object grade value - the second object grade value
         //if a - b is greater than 0 then b is a number that is smaller than a and will be placed before a in the array
         return a.grade-b.grade;
@@ -490,9 +498,9 @@ function arraySortByGradeAscending () {
     updateStudentList();
 }
 
-function arraySortByGradeDescending () {
+function arraySortByGradeDescending (array) {
     //Begin sort function
-    student_array.sort(function(a,b) {
+    array.sort(function(a,b) {
         //return the second object grade value - the first object grade value
         //if b - a is greater than 0 then a is a number that is smaller than b and will be placed before b in the array
         return b.grade-a.grade;
@@ -501,6 +509,48 @@ function arraySortByGradeDescending () {
     $('.studentRow').remove();
     //Call updateStudentList with the newly sorted global array
     updateStudentList();
+}
+
+function namePush (array) {
+    for(i=0; i<array.length; i++) {
+        var index = array[i];
+        studentNameArrayOne.push(index.name);
+    }
+    studentNameArrayOne.sort(function (a,b){
+        //Variables set to the course value of the object and sets it to lowercase to make sorting simpler
+        var courseA = a.toLowerCase();
+        var courseB = b.toLowerCase();
+
+        //Conditions for determining if the objects being evaluated are less than or greater than each other then assigns the appropriate position
+        if(courseA < courseB) {
+            //if courseA is less than courseB / 0 then return -1
+            //if courseA is less than courseB then courseA should be placed before courseB
+            return -1;
+        }
+        else if(courseA > courseB) {
+            //if courseA is greater than courseB / 0 then return 1
+            //if courseA is greater than courseB then courseA should be placed after courseB
+            return 1;
+        }
+        else {
+            //if courseA and courseB are equal then return 0
+            return 0;
+        }
+    });
+    console.log(studentNameArrayOne);
+}
+
+function search (event) {
+    var aKey = event.keyCode;
+    var searchInput = $('#search').val().toUpperCase();
+    var letter = String.fromCharCode(aKey);
+    for(i=0; i<studentNameArrayOne.length; i++) {
+        var string = studentNameArrayOne[i];
+        var usableString = string.toUpperCase();
+        if(searchInput == usableString) {
+            console.log(true);
+        }
+    }
 }
 
 
@@ -512,6 +562,10 @@ $(document).ready(function () {
     studentName  = $('#studentName');
     studentCourse = $('#course');
     studentGrade = $('#studentGrade');
+    student_array = [];
+    studentNameArrayOne = [];
+    studentNameArrayTwo = [];
+
 
     //On click function for getting AJAX data
     $('.serverButton').on('click', function () {
@@ -519,6 +573,7 @@ $(document).ready(function () {
     });
     //Calls ajax sever function to populate the student array with the objects already in the server
     ajaxCall();
+
     // //Calls addStudent to populate the DOM with the Global Array or put teh No User Data on the page
     updateStudentList();
 
