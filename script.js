@@ -96,12 +96,6 @@ function addStudent (name,course,grade) {
         //Call functions for adding student to list and averaging the grades
         student_array.push(student);
 
-        calculateAverage();
-
-
-
-
-
         //Clear out inputs after entered in
         clearAddStudentForm();
         return student;
@@ -137,7 +131,7 @@ function calculateAverage () {
  */
 function updateData () {
     //calls function for updating the student list and the grade average
-    updateStudentList(student);
+    updateStudentList();
     calculateAverage();
 }
 /**
@@ -155,6 +149,8 @@ function updateStudentList () {
     if(student_array.length === 0) {
         addEmptyTableMessage();
     }
+
+    calculateAverage();
 }
 /**
  * addStudentToDom - take in a student object, create html elements from the values and then append the elements
@@ -162,7 +158,7 @@ function updateStudentList () {
  * @param studentObj
  */
 function addStudentToDom (student) {
-    
+
     //if statement to determine if the No User Data Message should be added
     if(student_array.length === 0) {
         addEmptyTableMessage();
@@ -215,8 +211,8 @@ function addStudentToDom (student) {
         columnGrade = $('<td>').text(student.grade);
     }
     
-    var editButton = $('<button>').addClass('editButton btn btn-primary').text('edit');
-    var deleteButton = $('<button>').addClass('deleteButton btn btn-danger').text('delete');
+    var editButton = $('<button>').addClass('editButton btn btn-primary col-md-5 col-sm-5 pull-left glyphicon glyphicon-edit');
+    var deleteButton = $('<button>').addClass('deleteButton btn btn-danger col-md-5 col-sm-5 col-md-offset-2 col-sm-offset-2 glyphicon glyphicon-trash');
 
 
     //Delete Closure attached to the element at the time of creation
@@ -248,7 +244,7 @@ function addStudentToDom (student) {
     var tdDelete = $('<td>').append(editButton,deleteButton);
     $(row).append(columnName,columnCourse,columnGrade,tdDelete);
     $('tbody').append(row);
-    
+
     //Removes the No User Data Text
     $('.noDataText').remove();
 
@@ -511,47 +507,47 @@ function arraySortByGradeDescending (array) {
     updateStudentList();
 }
 
-function namePush (array) {
-    for(i=0; i<array.length; i++) {
-        var index = array[i];
-        studentNameArrayOne.push(index.name);
-    }
-    studentNameArrayOne.sort(function (a,b){
-        //Variables set to the course value of the object and sets it to lowercase to make sorting simpler
-        var courseA = a.toLowerCase();
-        var courseB = b.toLowerCase();
+// function namePush (array) {
+//     for(i=0; i<array.length; i++) {
+//         var index = array[i];
+//         studentNameArrayOne.push(index.name);
+//     }
+//     studentNameArrayOne.sort(function (a,b){
+//         //Variables set to the course value of the object and sets it to lowercase to make sorting simpler
+//         var courseA = a.toLowerCase();
+//         var courseB = b.toLowerCase();
+//
+//         //Conditions for determining if the objects being evaluated are less than or greater than each other then assigns the appropriate position
+//         if(courseA < courseB) {
+//             //if courseA is less than courseB / 0 then return -1
+//             //if courseA is less than courseB then courseA should be placed before courseB
+//             return -1;
+//         }
+//         else if(courseA > courseB) {
+//             //if courseA is greater than courseB / 0 then return 1
+//             //if courseA is greater than courseB then courseA should be placed after courseB
+//             return 1;
+//         }
+//         else {
+//             //if courseA and courseB are equal then return 0
+//             return 0;
+//         }
+//     });
+//     console.log(studentNameArrayOne);
+// }
 
-        //Conditions for determining if the objects being evaluated are less than or greater than each other then assigns the appropriate position
-        if(courseA < courseB) {
-            //if courseA is less than courseB / 0 then return -1
-            //if courseA is less than courseB then courseA should be placed before courseB
-            return -1;
-        }
-        else if(courseA > courseB) {
-            //if courseA is greater than courseB / 0 then return 1
-            //if courseA is greater than courseB then courseA should be placed after courseB
-            return 1;
-        }
-        else {
-            //if courseA and courseB are equal then return 0
-            return 0;
-        }
-    });
-    console.log(studentNameArrayOne);
-}
-
-function search (event) {
-    var aKey = event.keyCode;
-    var searchInput = $('#search').val().toUpperCase();
-    var letter = String.fromCharCode(aKey);
-    for(i=0; i<studentNameArrayOne.length; i++) {
-        var string = studentNameArrayOne[i];
-        var usableString = string.toUpperCase();
-        if(searchInput == usableString) {
-            console.log(true);
-        }
-    }
-}
+// function search (event) {
+//     var aKey = event.keyCode;
+//     var searchInput = $('#search').val().toUpperCase();
+//     var letter = String.fromCharCode(aKey);
+//     for(i=0; i<studentNameArrayOne.length; i++) {
+//         var string = studentNameArrayOne[i];
+//         var usableString = string.toUpperCase();
+//         if(searchInput == usableString) {
+//             console.log(true);
+//         }
+//     }
+// }
 
 
 /**

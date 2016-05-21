@@ -42,21 +42,13 @@
             <input type="text" class="form-control" name="studentGrade" id="studentGrade"
                    placeholder="Student Grade">
         </div>
-        <div class = "form-inline">
-            <button type="button" class=" input-group col-md-5 addButton btn btn-success" onclick="addClicked()">Add</button>
-            <button type="button" class="input-group col-md-5 btn btn-default" onclick="cancelClicked()">Cancel</button>
+        <div class = "form-group">
+            <button type="button" class="col-md-5 col-sm-5 pull-left addButton btn btn-success" onclick="addClicked()">Add</button>
+            <button type="button" class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-1 btn btn-default" onclick="cancelClicked()">Cancel</button>
         </div>
-        <div class="form-inline">
-            <button type="button" class ="input-group col-md-10 btn btn-primary serverButton">Get Data From Server</button>
+        <div class="form-group">
+            <button type="button" class ="input-group col-md-12 btn btn-primary serverButton">Get Data From Server</button>
         </div>
-
-        <div class="input-group form-group">
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-search"></span>
-            </span>
-            <input type="text" onkeydown="search(event)" class="form-control" name="search" id="search" placeholder="Search">
-        </div>
-
     </div>
     <div class="student-list-container col-md-9">
         <table class="table student-list">
