@@ -2,8 +2,8 @@
  * Define all global variables here
  */
 var student_array;
-var studentNameArrayOne;
-var studentNameArrayTwo;
+// var studentNameArrayOne;
+// var studentNameArrayTwo;
 var studentName;
 var studentCourse;
 var studentGrade;
