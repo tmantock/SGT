@@ -1,10 +1,28 @@
-<tr>
-  <td> Mother: {{ info.parent.mother }} </td>
-  <td> Father: {{ info.parent.father }} </td>
-  <td> Home Number: {{ info.contact }} </td>
-</tr>
-<tr>
-  <td> {{ info.instructor }} </td>
-  <td> {{ info.course }} </td>
-  <td> {{ info.grade }} </td>
-</tr>
+<table>
+  <thead>
+    <tr>
+      <th>Guardian</th>
+      <th>Contact Number</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td> {{ info.guardian.name }} </td>
+      <td> {{ info.guardian.contact }} </td>
+    </tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+    <th>Instructor</th>
+    <th>Course</th>
+    <th>Grade</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td> {{ info.instructor }} </td>
+      <td> {{ info.course }} </td>
+      <td> {{ info.grade }} </td>
+    </tr>
+  </tbody>
+</table>
