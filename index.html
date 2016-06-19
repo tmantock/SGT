@@ -53,39 +53,27 @@
                     <button type="button" class="col-md-5 col-sm-5 pull-left addButton btn btn-success" id="addButton">Add</button>
                     <button type="button" class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-1 btn btn-default" id="cancelButton">Cancel</button>
                 </div>
-                <div class="form-group">
-                    <button type="button" class="input-group col-md-12 btn btn-primary serverButton">Get Data From Server</button>
-                </div>
             </div>
             <div class="student-list-container col-md-9">
                 <table class="table student-list" id="student-table">
                     <thead>
                         <tr>
-                            <th>Student Name
-                                <span class='glyphicon glyphicon-triangle-top' onclick="arraySortByNameDescending(student_array)"></span>
-                                <span class='glyphicon glyphicon-triangle-bottom' onclick="arraySortByNameAscending(student_array)"></span>
-                            </th>
-                            <th>Grade Level
-                                <span class='glyphicon glyphicon-triangle-top' onclick="arraySortByCourseDescending(student_array)"></span>
-                                <span class='glyphicon glyphicon-triangle-bottom' onclick="arraySortByCourseAscending(student_array)"></span>
-                            </th>
-                            <th>Grade Point Average
-                                <span class='glyphicon glyphicon-triangle-top' onclick="arraySortByGradeDescending(student_array)"></span>
-                                <span class='glyphicon glyphicon-triangle-bottom' onclick="arraySortByGradeAscending(student_array)"></span>
-                            </th>
+                            <th>{{sc.headerOne}}</th>
+                            <th>{{sc.headerTwo}}</th>
+                            <th>{{sc.headerThree}}</th>
                             <th>Operations</th>
                         </tr>
                     </thead>
                     <tbody>
                       <tr ng-repeat-start="student in sc.students">
-                        <td>{{ student.name }}</td>
-                        <td>{{ student.grade }}</td>
+                        <td ng-click="showGuardians = ! showGuardians; sc.guardianExpand();">{{ student.name }}</td>
+                        <td ng-click="showCourses = ! showCourses; sc.courseExpand();">{{ student.grade }}</td>
                         <td>{{ student.gpa }}</td>
                         <td>
                           <button class="btn btn-info edit-btn glyphicon glyphicon-edit"></button>
                           <button class="btn btn-danger delete-btn glyphicon glyphicon-trash"></button>
                         </td>
-                        <tr class="warning" ng-repeat="guardian in student.guardians">
+                        <tr class="warning" ng-show="showGuardians" ng-repeat="guardian in student.guardians">
                           <td>
                             {{ guardian.label }}
                           </td>
@@ -100,7 +88,7 @@
                             <button class="btn btn-danger delete-btn glyphicon glyphicon-trash"></button>
                           </td>
                         </tr>
-                        <tr class= "info" info="student" ng-repeat="course in student.courses" ng-repeat-end>
+                        <tr class= "info" ng-show="showCourses" ng-repeat="course in student.courses" ng-repeat-end>
                           <td>
                             {{ course.instructor }}
                           </td>
