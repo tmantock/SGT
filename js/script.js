@@ -1,4 +1,4 @@
-$(function ($) {
+$(function($) {
     /** Create Operations ======================
      *
      */
@@ -9,22 +9,22 @@ $(function ($) {
     /** Click handler to submit student information
      * Take values of the student-add-form
      */
-    submitBtn.click(function () {
-      if(name == '' || course == '' || grade == '') {
-        $("#modal").modal("show");
-      }else{
-        var studentName = $('#studentName').val(),
-            studentCourse = $('#course').val(),
-            studentGrade = $('#studentGrade').val();
-        /** Send the values to firebase
-        * firebaseRef.push will append a new item to the user list
-         */
-        firebaseRef.push({
-          name: studentName,
-          course: studentCourse,
-          grade: studentGrade
-        });
-      }
+    submitBtn.click(function() {
+        if (name === '' || course === '' || grade === '') {
+            $("#modal").modal("show");
+        } else {
+            var studentName = $('#studentName').val(),
+                studentCourse = $('#course').val(),
+                studentGrade = $('#studentGrade').val();
+            /** Send the values to firebase
+             * firebaseRef.push will append a new item to the user list
+             */
+            firebaseRef.push({
+                name: studentName,
+                course: studentCourse,
+                grade: studentGrade
+            });
+        }
         clearInputs();
     });
 
@@ -32,15 +32,15 @@ $(function ($) {
      * Attach an asynchronous callback to read the data at our users firebaseReference on load
      * child_added will update the DOM everytime a new student is added to the data base
      */
-    firebaseRef.on("child_added", function (studentSnapShot) {
+    firebaseRef.on("child_added", function(studentSnapShot) {
         updateDOM(studentSnapShot);
-    }, function (errorObject) {
+    }, function(errorObject) {
         console.log("The read failed: " + errorObject.code);
     });
 
-    firebaseRef.on("child_changed", function (studentSnapShot) {
+    firebaseRef.on("child_changed", function(studentSnapShot) {
         updateDOM(studentSnapShot);
-    }, function (errorObject) {
+    }, function(errorObject) {
         console.log("The read failed: " + errorObject.code);
     });
 
@@ -56,17 +56,17 @@ $(function ($) {
      * new student row that is added to the DOM
      * will inherit an operational edit button
      */
-    sgtTableElement.on('click', '.edit-btn', function () {
+    sgtTableElement.on('click', '.edit-btn', function() {
         var student_id = $(this).data('id');
         var studentFirebaseRef = firebaseRef.child(student_id);
 
         /** The once method method will listen for an event only once and here we use it
          * to pre-fill the inputs in the form for a better user experience
          */
-        studentFirebaseRef.once('value', function (snapshot) {
+        studentFirebaseRef.once('value', function(snapshot) {
             $('#modal-edit-name').val(snapshot.val().name);
-            $('#modal-edit-course').val(snapshot.val().course);
-            $('#modal-edit-grade').val(snapshot.val().grade);
+            $('#modal-edit-course').val(snapshot.val().grade);
+            $('#modal-edit-grade').val(snapshot.val().gpa);
 
             $('#student-id').val(student_id);
 
@@ -95,7 +95,7 @@ $(function ($) {
     }
 
     /** Click handler for modal confirm button */
-    $("#edit-modal").on('click', '#confirm-edit', function () {
+    $("#edit-modal").on('click', '#confirm-edit', function() {
         console.log("im here");
         console.log("('#edit-modal').find('#student-id').val() :", $('#edit-modal').find('#student-id').val());
         var studentFirebaseRef = firebaseRef.child($('#edit-modal').find('#student-id').val());
@@ -110,10 +110,10 @@ $(function ($) {
      */
 
     /** Delete button handler */
-    sgtTableElement.on('click', '.delete-btn', function () {
+    sgtTableElement.on('click', '.delete-btn', function() {
         var studentFirebaseRef = firebaseRef.child($(this).data('id'));
         console.log('this on delete-btn is: ' + $(this).data('id'));
-        firebaseRef.on('child_removed', function (snapshot) {
+        firebaseRef.on('child_removed', function(snapshot) {
             /** Remove the element from the DOM */
             console.log('snapshot.key is: ', snapshot.key());
             var rowId = snapshot.key();
@@ -133,13 +133,14 @@ $(function ($) {
     /** DOM CREATION ================================== */
     function updateDOM(studentSnapShot) {
         var studentObject = studentSnapShot.val();
+        console.log(studentObject);
         var studentObjectId = studentSnapShot.key();
         var studentRow = $("#" + studentObjectId);
         if (studentRow.length > 0) {
             //change current
             studentRow.find(".student-name").text(studentObject.name);
-            studentRow.find(".student-course").text(studentObject.course);
-            studentRow.find(".student-grade").text(studentObject.grade);
+            studentRow.find(".student-course").text(studentObject.grade);
+            studentRow.find(".student-grade").text(studentObject.gpa);
         } else {
             //add new
             var sName = $('<td>', {
@@ -147,14 +148,14 @@ $(function ($) {
                     class: "student-name"
                 }),
                 sCourse = $('<td>', {
-                    text: studentObject.course,
+                    text: studentObject.grade,
                     class: "student-course"
                 }),
                 sGrade = $('<td>', {
-                    text: studentObject.grade,
+                    text: studentObject.gpa,
                     class: "student-grade"
                 }),
-            /* Each student gets a unique edit and delete button appended to its row */
+                /* Each student gets a unique edit and delete button appended to its row */
                 sEditBtn = $('<button>', {
                     class: "btn btn-primary edit-btn",
                     'data-id': studentObjectId
@@ -168,21 +169,22 @@ $(function ($) {
                 }),
                 sDeleteBtnIcon = $('<span>', {
                     class: "glyphicon glyphicon-trash"
+                }),
+                stundentRow;
+            if (studentObject.grade >= 60) {
+                studentRow = $('<tr>', {
+                    id: studentObjectId
                 });
-            if(studentObject.grade >= 60){
-            var studentRow = $('<tr>', {
-                id: studentObjectId
-            });
-            }else{
-            var studentRow = $('<tr>', {
-                id: studentObjectId,
-                class: 'danger'
-            });
-          }
-            sEditBtn.append(sEditBtnIcon);
-            sDeleteBtn.append(sDeleteBtnIcon);
-            studentRow.append(sName, sCourse, sGrade, sEditBtn, sDeleteBtn);
-            sgtTableElement.append(studentRow, studentInfoRow);
+            } else {
+                studentRow = $('<tr>', {
+                    id: studentObjectId,
+                    class: 'danger'
+                });
+            }
+            // sEditBtn.append(sEditBtnIcon);
+            // sDeleteBtn.append(sDeleteBtnIcon);
+            // studentRow.append(sName, sCourse, sGrade, sEditBtn, sDeleteBtn);
+            // sgtTableElement.append(studentRow);
         }
     }
 });

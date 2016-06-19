@@ -1,1 +1,1 @@
-var app = angular.module("StudentTable",[]);
+var app = angular.module("studentTable",["firebase"]);
