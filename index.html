@@ -31,11 +31,11 @@
                 </h3>
             </div>
             <div class="student-add-form col-md-3 form-horizontal pull-right" ng-controller="formController as fc">
-                <h4 ng-click="showstudentform = ! showstudentform" class="formHeader">Add Student</h4>
+                <h4 ng-click="showstudentform = ! showstudentform" class="formHeader">Add New Student</h4>
                 <student-info info="addform" ng-show="showstudentform"></student-info>
-                <h4 ng-click="showguardianform = ! showguardianform" class="formHeader">Add Guardian</h4>
+                <h4 ng-click="showguardianform = ! showguardianform" class="formHeader">Add New Guardian</h4>
                 <guardian-info info="addform" ng-show="showguardianform"></guardian-info>
-                <h4 ng-click="showcourseform = ! showcourseform" class="formHeader">Add Courses</h4>
+                <h4 ng-click="showcourseform = ! showcourseform" class="formHeader">Add New Courses</h4>
                 <course-info info="addform" ng-show="showcourseform"></course-info>
                 <div class="form-group">
                     <button
@@ -80,7 +80,7 @@
                                     <button class="btn btn-success add-btn btn-circle glyphicon glyphicon-plus"></button>
                                 </td>
                             </tr>
-                            <tr class="warning" ng-show="showGuardians" ng-repeat="guardian in student.guardians">
+                            <tr class="subrow" ng-show="showGuardians" ng-repeat="guardian in student.guardians">
                                 <td>
                                     {{ guardian.relationship }}
                                 </td>
@@ -109,7 +109,7 @@
                                     <button class="btn btn-success add-btn btn-circle glyphicon glyphicon-plus"></button>
                                 </td>
                             </tr>
-                            <tr class="info" ng-show="showCourses" ng-repeat="course in student.courses" ng-repeat-end>
+                            <tr class="subrow" ng-show="showCourses" ng-repeat="course in student.courses" ng-repeat-end>
                                 <td>
                                     {{ course.instructor }}
                                 </td>

@@ -65,23 +65,19 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     };
 
     self.submit = function() {
-        console.log(self.student);
         studentTableService.add(self.student);
         clearInputs();
     };
 
     self.deleteStudent = function(key) {
-        console.log("Key", key.$id);
         studentTableService.deleteStudent(key.$id);
     };
 
     self.deleteGuardian = function(key, element) {
-        console.log(element);
         studentTableService.deleteGuardian(key.$id, element);
     };
 
     self.deleteCourse = function(key, element) {
-        console.log(element);
         studentTableService.deleteCourse(key.$id, element);
     };
 
