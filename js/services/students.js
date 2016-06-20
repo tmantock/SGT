@@ -2,18 +2,29 @@ app.service("studentTableService", ["$firebaseArray", function($firebaseArray){
   var self = this,
   firebaseRef = new Firebase("https://studentgrade.firebaseio.com/students");
   self.students = new $firebaseArray(firebaseRef);
-  self.inputs = ["sName","sGrade","sGPA","gNameOne","gContactOne","gNameTwo","gContactTwo","sCourse","sCourseGrade"];
+  self.inputs = ["id","name","grade","guardians","courses"];
 
-  self.add = function (student) {
-    firebaseRef.push({
-      name: student.name,
-      course: student.grade,
-      gpa: student.gpa
-    });
+  self.add = function(student) {
+        firebaseRef.push({
+            id: student.id,
+            name: student.name,
+            grade: student.grade,
+            guardians: student.guardians,
+            courses: student.courses
+        });
+    };
+
+
+  self.deleteStudent = function (key,index) {
+    firebaseRef.child(key).remove();
   };
 
-  self.delete = function (key) {
-    firebaseRef.child(key).remove();
+  self.deleteGuardian = function (key,index) {
+    firebaseRef.child(key).child('guardians').child(index).remove();
+  };
+
+  self.deleteCourse = function (key,index) {
+    firebaseRef.child(key).child('courses').child(index).remove();
   };
 
   self.getStudentInfo = function (key) {
@@ -21,8 +32,8 @@ app.service("studentTableService", ["$firebaseArray", function($firebaseArray){
     firebaseRef.once("value", function (snapshot) {
       studentInfo.name = snapshot.child(key).child('name');
       studentInfo.grade = snapshot.child(key).child('grade');
-      studentInfo.gpa = snapshot.child(key).child('gpa');
-      studentInfo.guardian = snapshot.child(key).child('guardians');
+      studentInfo.id = snapshot.child(key).child('id');
+      studentInfo.guardians = snapshot.child(key).child('guardians');
       studentInfo.courses = snapshot.child(key).child('courses');
     });
     return studentInfo;
