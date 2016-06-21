@@ -25,27 +25,57 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     self.sortType = 'name';
     self.sortReverse = false;
     self.search = '';
+    self.modalText = '';
 
     self.submit = function() {
         studentTableService.addStudent(self.student);
         clearInputs();
     };
 
-    self.addGuardian = function(student,array){
-      if(array.length <= 2){
-        var guardianObj;
-        if(array.length === 0){
+    self.addGuardian = function(student,object){
+      var objectArray = [];
+      for (var index in object){
+        objectArray.push(index);
+      }
+      var contact = numberFactory(self.guardians.contact);
+      var name = toTitleCase(self.guardians.name);
+      var relationship = toTitleCase(self.guardians.relationship);
+      self.guardians.contact = contact;
+      self.guardians.name = name;
+      self.guardians.relationship = relationship;
+      var guardianObj;
+      if(typeof objectArray == 'undefined'){
+        if(contact.length === 12){
           guardianObj= {primaryGuardian: self.guardians};
           guardianObj.primaryGuardian.obj = "primaryGuardian";
-        }else if(array.length === 1) {
-          guardianObj = {secondaryGuardian: self.guardians};
-          guardianObj.secondaryGuardian.obj = "secondaryGuardian";
+          studentTableService.addGuardian(student, guardianObj);
+          console.log(self.guardians);
+          clearInputs();
+        }else {
+          self.modalText = "Please enter a valid 10-digit number";
+          $("#modal").modal('show');
+          console.log(self.modalText);
+          clearInputs();
         }
-        studentTableService.addGuardian(student, guardianObj);
-        console.log(self.guardians);
-        clearInputs();
-      }else {
-        console.log("Maiximum Number of Guardians has been reached");
+      }
+      else{
+        if(objectArray.length <= 1) {
+          if(contact.length === 12){
+            guardianObj= {secondaryGuardian: self.guardians};
+            guardianObj.secondaryGuardian.obj = "secondaryGuardian";
+            studentTableService.addGuardian(student, guardianObj);
+            console.log(self.guardians);
+            clearInputs();
+          }else {
+            self.modalText = "Please enter a valid 10-digit number";
+            $("#modal").modal('show');
+            console.log(self.modalText);
+          }
+        } else {
+          $("#modal").modal('show');
+          self.modalText = "Maximmum Number of Guardians has been reached.";
+          console.log(self.modalText);
+        }
       }
     };
 
@@ -54,6 +84,11 @@ app.controller("studentController", ["studentTableService", function(studentTabl
       var courseToAdd = self.generateSubject(course,self.courseArray);
       if(courseToAdd != "course not found"){
         studentTableService.addCourse(student.$id, courseToAdd);
+      }
+      else{
+        $("#modal").modal('show');
+        self.modalText = "Please enter a valid course." + course + " is not a valid course.";
+        console.log(self.modalText);
       }
       clearInputs();
     };
@@ -68,11 +103,19 @@ app.controller("studentController", ["studentTableService", function(studentTabl
 
     self.editGuardian = function (student, guardian,guardianObj) {
       var guardianObject = {};
+      var contact = numberFactory(guardian.contact);
+      guardian.contact = contact;
       guardianObject.newRelationship = guardian.relationship;
       guardianObject.newName = guardian.name;
       guardianObject.newContact = guardian.contact;
-      studentTableService.editGuardian(student.$id, guardianObj, guardianObject);
-      console.log(guardianObject);
+      if(contact.length === 12){
+        studentTableService.editGuardian(student.$id, guardianObj, guardianObject);
+      }
+      else {
+        $("#modal").modal('show');
+        self.modalText = "Please enter a valid 10-digit number";
+        console.log(self.modalText);
+      }
     };
 
     self.editCourse = function (student, course,courseObj) {
@@ -155,6 +198,13 @@ function courseCheck(course,array){
       }
     }
   }
+}
+
+function numberFactory (string) {
+  var strippedNumber = string.replace(/\D/g,'');
+  var formattedNumber = strippedNumber.replace(/(\d\d\d)(\d\d\d)(\d\d\d\d)/, '$1-$2-$3');
+  console.log(formattedNumber);
+  return formattedNumber;
 }
 
 function randomID() {
