@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <title>Student Table</title>
+        <title>Student Management System</title>
         <meta name="viewport" content="initial-scale=1, user-scalable=no">
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -19,24 +19,32 @@
         <div class="container" ng-controller="studentController as sc">
             <div class="page-header">
                 <!-- only show this element when the isnt on mobile -->
-                <h1 class='hidden-xs col-md-12'>Student Table
+                <h1 class='hidden-xs col-md-12'>Colony High School Student System
                     <small class="pull-right col-sm-4">Number of Students :
                         <span class="avgGrade label label-default">{{ sc.studentCount }}</span>
                     </small>
                 </h1>
                 <!-- only show this element when the user gets to a mobile version -->
-                <h3 class='visible-xs col-xs-12'>Student Table
+                <h3 class='visible-xs col-xs-12'>Colony High School Student System
                     <small class="pull-right col-xs-6">Number of Students :
                         <span class="avgGrade label label-default">{{ sc.studentCount }}</span>
                     </small>
                 </h3>
             </div>
-            <div class="student-add-form col-md-3 form-horizontal pull-right" ng-controller="formController as fc">
+            <div class="student-add-form col-md-3 form-horizontal pull-right">
                 <h4 ng-click="showstudentform = ! showstudentform" class="formHeader">Add New Student</h4>
                 <student-info info="addform" ng-show="showstudentform"></student-info>
                 <div class="form-group">
                     <button type="button" class="col-md-5 col-sm-5 pull-left addButton btn btn-success" id="addButton" ng-show="showstudentform" ng-click="sc.submit(); showstudentform = ! showstudentform">Add</button>
                     <button type="button" class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-1 btn btn-default" id="cancelButton" ng-show="showstudentform" ng-click="sc.clearInputs()">Cancel</button>
+                </div>
+                <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-search"></span>
+                  </span>
+                    <input type="text" class="form-control" placeholder="Search for a student" ng-model="searchStudent">
+                  </div>
                 </div>
             </div>
             <div class="student-list-container col-md-9">
@@ -44,19 +52,29 @@
                     <thead>
                         <tr>
                             <th>Studen ID</th>
-                            <th>Student Name</th>
-                            <th>Grade Level</th>
+                            <th ng-click="sc.sortType = 'name'">Student Name<span ng-click="sc.sortType = 'name'; sc.sortReverse = !sc.sortReverse" class="sort glyphicon glyphicon-sort"></span></th>
+                            <th ng-click="sc.sortType = 'grade'">Grade Level<span ng-click="sc.sortType = 'grade'; sc.sortReverse = !sc.sortReverse" class="sort glyphicon glyphicon-sort"></span></th>
                             <th>Operations</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat-start="student in sc.students">
+                        <tr ng-repeat-start="student in sc.students | orderBy: sc.sortType:sc.sortReverse | filter: searchStudent">
                             <td>{{ student.id }}</td>
-                            <td ng-click="showGuardians = ! showGuardians; sc.guardianExpand();">{{ student.name }}</td>
-                            <td ng-click="showCourses = ! showCourses; sc.courseExpand();">{{ student.grade }}</td>
-                            <td>
-                                <button class="btn btn-info edit-btn btn-circle glyphicon glyphicon-edit"></button>
+                            <td ng-hide="editStudent" ng-model="student.name" ng-click="showGuardians = ! showGuardians; sc.guardianExpand();">{{ student.name }}</td>
+                            <td ng-show="editStudent">
+                              <input class="form-control" type="text" name="editStudentName" id="editStudentName"  ng-model="student.name">
+                            </td>
+                            <td ng-hide="editStudent" ng-model="student.grade" ng-click="showCourses = ! showCourses; sc.courseExpand();">{{ student.grade }}</td>
+                            <td ng-show="editStudent">
+                              <input class="form-control" type="text" name="editStudentGrade" id="editStudentGrade"  ng-model="student.grade">
+                            </td>
+                            <td ng-hide="editStudent">
+                                <button class="btn btn-info edit-btn btn-circle glyphicon glyphicon-edit" ng-click="editStudent=!editStudent"></button>
                                 <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-trash" ng-click="sc.deleteStudent(student, $index)"></button>
+                            </td>
+                            <td ng-show="editStudent">
+                                <button class="btn btn-success edit-btn btn-circle glyphicon glyphicon-ok" ng-click="sc.editStudent(student); editStudent=!editStudent"></button>
+                                <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-remove" ng-click="editStudent=!editStudent"></button>
                             </td>
                         </tr>
                         <tr class="subhead" ng-show="showGuardians">
@@ -74,29 +92,42 @@
                                 </td>
                         </tr>
                         <tr class="subrow" ng-show="showGuardians" ng-repeat="guardian in student.guardians">
-                                <td>
+                                <td ng-hide="editGuardian" ng-model="guardian.relationship">
                                     {{ guardian.relationship }}
                                 </td>
-                                <td>
+                                <td ng-show="editGuardian">
+                                  <input class="form-control" type="text" name="editGuardianRelationship" id="editGuardianRelationship"  ng-model="guardian.relationship">
+                                </td>
+                                <td ng-hide="editGuardian" ng-model="guardian.name">
                                     {{ guardian.name }}
                                 </td>
-                                <td>
+                                <td ng-show="editGuardian">
+                                  <input class="form-control" type="text" name="editGuardianRelationship" id="editGuardianName"  ng-model="guardian.name">
+                                </td>
+                                <td ng-hide="editGuardian" ng-model="guardian.contact">
                                     {{ guardian.contact }}
                                 </td>
-                                <td>
-                                    <button class="btn btn-info edit-btn btn-circle glyphicon glyphicon-edit"></button>
+                                <td ng-show="editGuardian">
+                                  <input class="form-control" type="text" name="editGuardianContact" id="editGuardianContact"  ng-model="guardian.contact">
+                                </td>
+                                <td ng-hide="editGuardian">
+                                    <button class="btn btn-info edit-btn btn-circle glyphicon glyphicon-edit" ng-click="editGuardian = !editGuardian"></button>
                                     <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-trash" ng-click="sc.deleteGuardian(student, guardian.obj)"></button>
+                                </td>
+                                <td ng-show="editGuardian">
+                                    <button class="btn btn-success edit-btn btn-circle glyphicon glyphicon-ok" ng-click="sc.editGuardian(student, guardian, guardian.obj); editGuardian = !editGuardian"></button>
+                                    <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-remove" ng-click="editGuardian = !editGuardian"></button>
                                 </td>
                         </tr>
                         <tr ng-show="showGuardianInput">
                               <td>
-                                <input class="form-control" type="text" name="insertGuardianRelationship" id="insertGuardianRelationship" placeholder="Guardian Relationship" ng-model="sc.guardians.relationship">
+                                <input class="form-control" type="text" name="insertGuardianRelationship" id="insertGuardianRelationship" ng-model="sc.guardians.relationship">
                               </td>
                               <td>
-                                <input class="form-control" type="text" name="insertGuardianName" id="insertGuardianName" placeholder="Guardian Name" ng-model="sc.guardians.name">
+                                <input class="form-control" type="text" name="insertGuardianName" id="insertGuardianName" ng-model="sc.guardians.name">
                               </td>
                               <td>
-                                <input class="form-control" type="text" name="insertGuardianContact" id="insertGuardianContact" placeholder="Guardian Contact" ng-model="sc.guardians.contact">
+                                <input class="form-control" type="text" name="insertGuardianContact" id="insertGuardianContact" ng-model="sc.guardians.contact">
                               </td>
                               <td>
                                   <button class="btn btn-success edit-btn btn-circle glyphicon glyphicon-ok" ng-click="sc.addGuardian(student,student.guardians)"></button>
@@ -118,18 +149,31 @@
                                 </td>
                         </tr>
                         <tr class="subrow" ng-show="showCourses" ng-repeat="course in student.courses">
-                                <td>
+                                <td ng-model="course.instructor" ng-hide="editCourse">
                                     {{ course.instructor }}
                                 </td>
-                                <td>
+                                <td ng-show="editCourse">
+                                  <input class="form-control" type="text" name="editInstructorName" id="editInstructorName" ng-model="course.instructor">
+                                </td>
+                                <td ng-model="course.course" ng-hide="editCourse">
                                     {{ course.course }}
                                 </td>
-                                <td>
+                                <td ng-show="editCourse">
+                                  <input class="form-control" type="text" name="editCourseName" id="editCourseName" ng-model="course.course">
+                                </td>
+                                <td ng-model="course.grade" ng-hide="editCourse">
                                     {{ course.grade }}
                                 </td>
-                                <td>
-                                    <button class="btn btn-info edit-btn btn-circle glyphicon glyphicon-edit"></button>
-                                    <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-trash" ng-click="sc.deleteCourse(student, course.obj)"></button>
+                                <td ng-show="editCourse">
+                                  <input class="form-control" type="text" name="editCourseGrade" id="editCourseGrade" ng-model="course.grade">
+                                </td>
+                                <td ng-hide="editCourse">
+                                    <button class="btn btn-info edit-btn btn-circle glyphicon glyphicon-edit" ng-click="editCourse = !editCourse"></button>
+                                    <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-trash" ng-click="sc.deleteCourse(student, course, course.obj)"></button>
+                                </td>
+                                <td ng-show="editCourse">
+                                    <button class="btn btn-success edit-btn btn-circle glyphicon glyphicon-ok" ng-click="sc.editCourse(student, course, course.obj); editCourse = !editCourse"></button>
+                                    <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-remove" ng-click="editCourse = !editCourse"></button>
                                 </td>
                         </tr>
                         <tr ng-show="showCourseInput" ng-repeat-end>

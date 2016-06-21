@@ -1,6 +1,6 @@
 app.controller("studentController", ["studentTableService", function(studentTableService) {
     var self = this;
-    self.courseArray = [['pre algebra','algebra i', 'algebra ii','geometry','statistics','calculus', 'math'],['earth science', 'biology', 'chemisty', 'anatomy', 'physics','science'],['english i', 'english ii', 'english iii', 'comparative literature', 'reading comprehension','english'],['french i', 'french ii', 'french iii', 'spanish i', 'spanish ii', 'spanish iii','language'],['shop','marching band','concert band','jazz band','choir','drama','music appreciation','elective'],['physical education','football','water polo','physed']];
+    self.courseArray = [['pre algebra','algebra i', 'algebra ii','geometry','statistics','calculus', 'math'],['earth science', 'biology', 'chemisty', 'anatomy', 'physics','science'],['english i', 'english ii', 'english iii', 'comparative literature', 'reading comprehension','english'],['french i', 'french ii', 'french iii', 'spanish i', 'spanish ii', 'spanish iii','language'],['shop','marching band','concert band','jazz band','choir','drama','music appreciation','elective'],['physical education','football','water polo','physed'],['economics','history','government','social']];
     self.students = studentTableService.students;
     self.studentCount = 0;
     self.guardianList = true;
@@ -9,7 +9,8 @@ app.controller("studentController", ["studentTableService", function(studentTabl
         self.studentCount = self.students.length;
     });
     self.student = {};
-    self.index = 1;
+    self.student.name = '';
+    self.student.grade = '';
     self.student.id = randomID();
     self.student.name = '';
     self.student.grade = '';
@@ -19,10 +20,13 @@ app.controller("studentController", ["studentTableService", function(studentTabl
       contact:''
     };
     self.courses = {
-      course: ''.toUpperCase(),
-      instructor: ''.toUpperCase(),
+      course: '',
+      instructor: '',
       grade: ''
     };
+    self.sortType = 'name';
+    self.sortReverse = false;
+    self.search = '';
 
     self.submit = function() {
         studentTableService.addStudent(self.student);
@@ -51,13 +55,41 @@ app.controller("studentController", ["studentTableService", function(studentTabl
       var course = self.courses.course;
       var courseToAdd = self.generateSubject(course,self.courseArray);
       if(courseToAdd != "course not found"){
-      studentTableService.addCourse(student.$id, courseToAdd);
-    }
+        studentTableService.addCourse(student.$id, courseToAdd);
+      }
       clearInputs();
+    };
+
+    self.editStudent = function (student) {
+      var studentObj = {};
+      studentObj.newName = student.name;
+      studentObj.newGrade = student.grade;
+      studentTableService.editStudent(student.$id,studentObj);
+      console.log(studentObj);
+    };
+
+    self.editGuardian = function (student, guardian,guardianObj) {
+      var guardianObject = {};
+      guardianObject.newRelationship = guardian.relationship;
+      guardianObject.newName = guardian.name;
+      guardianObject.newContact = guardian.contact;
+      studentTableService.editGuardian(student.$id, guardianObj, guardianObject);
+      console.log(guardianObject);
+    };
+
+    self.editCourse = function (student, course,courseObj) {
+      var courseObject = {};
+      courseObject.newInstructor = course.instructor;
+      courseObject.newCourse = course.course;
+      courseObject.newGrade = course.grade;
+      console.log(courseObject);
+      studentTableService.editCourse(student.$id, courseObj, courseObject);
     };
 
     self.generateSubject = function (course,array) {
       var subject = courseCheck(course,array);
+      self.courses.course = toTitleCase(self.courses.course);
+      self.courses.instructor = toTitleCase(self.courses.instructor);
       switch (subject){
         case 'math':
           var math = { math: self.courses};
@@ -84,6 +116,11 @@ app.controller("studentController", ["studentTableService", function(studentTabl
             elective.elective.obj="elective";
             console.log(elective);
             return elective;
+        case 'social':
+          var social = { social: self.courses};
+          social.social.obj="social";
+          console.log(social);
+          return social;
         case 'physed':
           var physed = { physed: self.courses};
             physed.physed.obj="physed";
@@ -129,4 +166,8 @@ function randomID() {
 
 function clearInputs() {
     $('input').val('');
+}
+
+function toTitleCase(str) {
+  return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
