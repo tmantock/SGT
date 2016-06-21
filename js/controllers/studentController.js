@@ -1,10 +1,8 @@
 app.controller("studentController", ["studentTableService", function(studentTableService) {
     var self = this;
     self.courseArray = [['pre algebra','algebra i', 'algebra ii','geometry','statistics','calculus', 'math'],['earth science', 'biology', 'chemisty', 'anatomy', 'physics','science'],['english i', 'english ii', 'english iii', 'comparative literature', 'reading comprehension','english'],['french i', 'french ii', 'french iii', 'spanish i', 'spanish ii', 'spanish iii','language'],['shop','marching band','concert band','jazz band','choir','drama','music appreciation','elective'],['physical education','football','water polo','physed'],['economics','history','government','social']];
+    self.courseList = ['Pre Algebra','Algebra I', 'Algebra II','Geometry','Statistics','Calculus','Earth Science', 'Biology', 'Chemistry', 'Anatomy', 'Physics','English I', 'English II', 'English III', 'Comparative Literature', 'Reading Comprehension','French I', 'French II', 'French III', 'Spanish I', 'Spanish II', 'Spanish III','Shop','Marching Band','Concert Band','Jazz Band','Choir','Drama','Music Appreciation','Physical Education','Football','Water Polo','Economics','History','Government'];
     self.students = studentTableService.students;
-    self.studentCount = 0;
-    self.guardianList = true;
-    self.courseList = true;
     self.students.$loaded().then(function() {
         self.studentCount = self.students.length;
     });
