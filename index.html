@@ -148,7 +148,7 @@
                                 <input class="form-control" type="text" name="insertGuardianContact" id="insertGuardianContact" ng-model="sc.guardians.contact">
                             </td>
                             <td>
-                                <button class="btn btn-success edit-btn btn-circle glyphicon glyphicon-ok" ng-click="sc.addGuardian(student,student.guardians)"></button>
+                                <button class="btn btn-success edit-btn btn-circle glyphicon glyphicon-ok" ng-click="sc.addGuardian(student , student.guardians)"></button>
                                 <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-remove" ng-click="sc.clearInputs(student)"></button>
                             </td>
                         </tr>
@@ -232,7 +232,7 @@
                             <h4 class="modal-title"></h4>
                         </div>
                         <div class="modal-body">
-                            <p>Please enter the required information in the form.</p>
+                            <p>{{ sc.modalText }}</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary" data-dismiss="modal">Okay</button>
