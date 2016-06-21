@@ -1,36 +1,15 @@
-<div class="input-group form-group">
-    <span class="input-group-addon">
-        <span class="glyphicon glyphicon-user"></span>
-    </span>
-    <input type="text" class="form-control" name="primaryGuardianRelationship" id="primaryGuardianRelationship" placeholder="Guardian Relationship" ng-model="sc.student.guardians.primaryGuardian.relationship">
-</div>
-<div class="input-group form-group">
-    <span class="input-group-addon">
-        <span class="glyphicon glyphicon-user"></span>
-    </span>
-    <input type="text" class="form-control" name="primaryGuardian" id="primaryGuardian" placeholder="Primary Guardian" ng-model="sc.student.guardians.primaryGuardian.name">
-</div>
-<div class="input-group form-group">
-    <span class="input-group-addon">
-        <span class="glyphicon glyphicon-earphone"></span>
-    </span>
-    <input type="text" class="form-control" name="primaryContact" id="primaryContact" placeholder="Primary Contact" ng-model="sc.student.guardians.primaryGuardian.contact">
-</div>
-<div class="input-group form-group">
-    <span class="input-group-addon">
-        <span class="glyphicon glyphicon-user"></span>
-    </span>
-    <input type="text" class="form-control" name="secondaryGuardianRelationsip" id="secondaryGuardianRelationships" placeholder="Guardian Relationship" ng-model="sc.student.guardians.secondaryGuardian.relationship">
-</div>
-<div class="input-group form-group">
-    <span class="input-group-addon">
-        <span class="glyphicon glyphicon-user"></span>
-    </span>
-    <input type="text" class="form-control" name="secondaryGuardian" id="secondaryGuardian" placeholder="Secondary Guardian" ng-model="sc.student.guardians.secondaryGuardian.name">
-</div>
-<div class="input-group form-group">
-    <span class="input-group-addon">
-        <span class="glyphicon glyphicon-earphone"></span>
-    </span>
-    <input type="text" class="form-control" name="secondaryContact" id="secondaryContact" placeholder="Secondary Contact" ng-model="sc.student.guardians.secondaryGuardian.contact">
-</div>
+<tr>
+      <td>
+        <input class="form-control" type="text" name="insertGuardianRelationship" id="insertGuardianRelationship" placeholder="Guardian Relationship" ng-model="sc.insertGuardianRelationship">
+      </td>
+      <td>
+        <input class="form-control" type="text" name="insertGuardianName" id="insertGuardianName" placeholder="Guardian Name" ng-model="sc.insertGuardianName">
+      </td>
+      <td>
+        <input class="form-control" type="text" name="insertGuardianContact" id="insertGuardianContact" placeholder="Guardian Contact" ng-model="sc.insertGuardianContact">
+      </td>
+      <td>
+          <button class="btn btn-success edit-btn btn-circle glyphicon glyphicon-ok"></button>
+          <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-remove" ng-click="sc.deleteGuardian(student, guardian.obj)"></button>
+      </td>
+</tr>

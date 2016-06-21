@@ -4,16 +4,27 @@ app.service("studentTableService", ["$firebaseArray", function($firebaseArray){
   self.students = new $firebaseArray(firebaseRef);
   self.inputs = ["id","name","grade","guardians","courses"];
 
-  self.add = function(student) {
+  self.addStudent = function(student) {
         firebaseRef.push({
             id: student.id,
             name: student.name,
             grade: student.grade,
-            guardians: student.guardians,
-            courses: student.courses
+            guardians: '',
+            courses: ''
         });
-    };
+  };
 
+  self.addGuardian = function(guardian ,guardianObj) {
+        console.log('in edit function', guardianObj);
+        var studentFirebaseRef = firebaseRef.child(guardian.$id).child('guardians');
+        studentFirebaseRef.update(guardianObj);
+  };
+
+  self.addCourse = function(student ,courseObj) {
+        console.log('in edit function', courseObj);
+        var studentFirebaseRef = firebaseRef.child(student).child('courses');
+        studentFirebaseRef.update(courseObj);
+    };
 
   self.deleteStudent = function (key,index) {
     firebaseRef.child(key).remove();

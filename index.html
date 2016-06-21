@@ -8,6 +8,7 @@
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.js"></script>
         <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
         <script src="https://cdn.firebase.com/libs/angularfire/1.1.4/angularfire.min.js"></script>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -33,18 +34,9 @@
             <div class="student-add-form col-md-3 form-horizontal pull-right" ng-controller="formController as fc">
                 <h4 ng-click="showstudentform = ! showstudentform" class="formHeader">Add New Student</h4>
                 <student-info info="addform" ng-show="showstudentform"></student-info>
-                <h4 ng-click="showguardianform = ! showguardianform" class="formHeader">Add New Guardian</h4>
-                <guardian-info info="addform" ng-show="showguardianform"></guardian-info>
-                <h4 ng-click="showcourseform = ! showcourseform" class="formHeader">Add New Courses</h4>
-                <course-info info="addform" ng-show="showcourseform"></course-info>
                 <div class="form-group">
-                    <button
-                        type="button"
-                        class="col-md-5 col-sm-5 pull-left addButton btn btn-success"
-                        id="addButton"
-                        ng-show="showcourseform"
-                        ng-click="sc.submit(); showstudentform = ! showstudentform; showguardianform = ! showguardianform; showcourseform = ! showcourseform">Add</button>
-                    <button type="button" class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-1 btn btn-default" id="cancelButton" ng-show="showcourseform" ng-click="sc.clearInputs()">Cancel</button>
+                    <button type="button" class="col-md-5 col-sm-5 pull-left addButton btn btn-success" id="addButton" ng-show="showstudentform" ng-click="sc.submit(); showstudentform = ! showstudentform">Add</button>
+                    <button type="button" class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-1 btn btn-default" id="cancelButton" ng-show="showstudentform" ng-click="sc.clearInputs()">Cancel</button>
                 </div>
             </div>
             <div class="student-list-container col-md-9">
@@ -66,7 +58,8 @@
                                 <button class="btn btn-info edit-btn btn-circle glyphicon glyphicon-edit"></button>
                                 <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-trash" ng-click="sc.deleteStudent(student, $index)"></button>
                             </td>
-                            <tr class="subhead" ng-show="showGuardians">
+                        </tr>
+                        <tr class="subhead" ng-show="showGuardians">
                                 <td>
                                     Relationship
                                 </td>
@@ -77,10 +70,10 @@
                                     Contact
                                 </td>
                                 <td>
-                                    <button class="btn btn-success add-btn btn-circle glyphicon glyphicon-plus"></button>
+                                    <button class="btn btn-success add-btn btn-circle glyphicon glyphicon-plus" ng-click="showGuardianInput =!showGuardianInput"></button>
                                 </td>
-                            </tr>
-                            <tr class="subrow" ng-show="showGuardians" ng-repeat="guardian in student.guardians">
+                        </tr>
+                        <tr class="subrow" ng-show="showGuardians" ng-repeat="guardian in student.guardians">
                                 <td>
                                     {{ guardian.relationship }}
                                 </td>
@@ -94,22 +87,37 @@
                                     <button class="btn btn-info edit-btn btn-circle glyphicon glyphicon-edit"></button>
                                     <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-trash" ng-click="sc.deleteGuardian(student, guardian.obj)"></button>
                                 </td>
-                            </tr>
-                            <tr class="subhead" ng-show="showCourses">
+                        </tr>
+                        <tr ng-show="showGuardianInput">
+                              <td>
+                                <input class="form-control" type="text" name="insertGuardianRelationship" id="insertGuardianRelationship" placeholder="Guardian Relationship" ng-model="sc.guardians.relationship">
+                              </td>
+                              <td>
+                                <input class="form-control" type="text" name="insertGuardianName" id="insertGuardianName" placeholder="Guardian Name" ng-model="sc.guardians.name">
+                              </td>
+                              <td>
+                                <input class="form-control" type="text" name="insertGuardianContact" id="insertGuardianContact" placeholder="Guardian Contact" ng-model="sc.guardians.contact">
+                              </td>
+                              <td>
+                                  <button class="btn btn-success edit-btn btn-circle glyphicon glyphicon-ok" ng-click="sc.addGuardian(student,student.guardians)"></button>
+                                  <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-remove" ng-click="sc.clearInputs(student)"></button>
+                              </td>
+                        </tr>
+                        <tr class="subhead" ng-show="showCourses">
                                 <td>
-                                    Instructor Name
+                                  Instructor Name
                                 </td>
                                 <td>
-                                    Course
+                                  Course
                                 </td>
                                 <td>
-                                    Grade
+                                  Grade
                                 </td>
                                 <td>
-                                    <button class="btn btn-success add-btn btn-circle glyphicon glyphicon-plus"></button>
+                                  <button class="btn btn-success add-btn btn-circle glyphicon glyphicon-plus" ng-click="showCourseInput = ! showCourseInput"></button>
                                 </td>
-                            </tr>
-                            <tr class="subrow" ng-show="showCourses" ng-repeat="course in student.courses" ng-repeat-end>
+                        </tr>
+                        <tr class="subrow" ng-show="showCourses" ng-repeat="course in student.courses">
                                 <td>
                                     {{ course.instructor }}
                                 </td>
@@ -123,7 +131,21 @@
                                     <button class="btn btn-info edit-btn btn-circle glyphicon glyphicon-edit"></button>
                                     <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-trash" ng-click="sc.deleteCourse(student, course.obj)"></button>
                                 </td>
-                            </tr>
+                        </tr>
+                        <tr ng-show="showCourseInput" ng-repeat-end>
+                          <td>
+                            <input class="form-control" type="text" name="insertInstructorName" id="insertInstructorName" placeholder="Instructor Name" ng-model="sc.courses.instructor">
+                          </td>
+                          <td>
+                            <input class="form-control" type="text" name="insertCourse" id="insertCourse" placeholder="Course Name" ng-model="sc.courses.course">
+                          </td>
+                          <td>
+                            <input class="form-control" type="text" name="insertCourseGrade" id="insertCourseGrade" placeholder="Course Grade" ng-model="sc.courses.grade">
+                          </td>
+                          <td>
+                              <button class="btn btn-success edit-btn btn-circle glyphicon glyphicon-ok" ng-click="sc.addCourse(student); showCourseInput = ! showCourseInput"></button>
+                              <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-remove" ng-click="sc.clearInputs(); showCourseInput = ! showCourseInput"></button>
+                          </td>
                         </tr>
                     </tbody>
                 </table>
@@ -156,5 +178,6 @@
         <script src="js/controllers/formController.js"></script>
         <!--Directives-->
         <script src="js/directives/studentInfo.js"></script>
+        <script src="js/directives/insertInfo.js"></script>
     </body>
 </html>
