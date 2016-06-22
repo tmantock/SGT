@@ -87,7 +87,7 @@
                                 <input class="form-control" type="text" name="editStudentGrade" id="editStudentGrade" ng-model="student.grade">
                             </td>
                             <td ng-hide="editStudent">
-                                <button class="btn btn-info edit-btn btn-circle glyphicon glyphicon-edit" ng-click="editStudent=!editStudent"></button>
+                                <button class="btn btn-primary edit-btn btn-circle glyphicon glyphicon-edit" ng-click="editStudent=!editStudent"></button>
                                 <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-trash" ng-click="sc.deleteStudent(student, $index)"></button>
                             </td>
                             <td ng-show="editStudent">
@@ -129,7 +129,7 @@
                                 <input class="form-control" type="text" name="editGuardianContact" id="editGuardianContact" ng-model="guardian.contact">
                             </td>
                             <td ng-hide="editGuardian">
-                                <button class="btn btn-info edit-btn btn-circle glyphicon glyphicon-edit" ng-click="editGuardian = !editGuardian"></button>
+                                <button class="btn btn-primary edit-btn btn-circle glyphicon glyphicon-edit" ng-click="editGuardian = !editGuardian"></button>
                                 <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-trash" ng-click="sc.deleteGuardian(student, guardian.obj)"></button>
                             </td>
                             <td ng-show="editGuardian">
@@ -186,7 +186,7 @@
                                 <input class="form-control" type="text" name="editCourseGrade" id="editCourseGrade" ng-model="course.grade">
                             </td>
                             <td ng-hide="editCourse">
-                                <button class="btn btn-info edit-btn btn-circle glyphicon glyphicon-edit" ng-click="editCourse = !editCourse"></button>
+                                <button class="btn btn-primary edit-btn btn-circle glyphicon glyphicon-edit" ng-click="editCourse = !editCourse"></button>
                                 <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-trash" ng-click="sc.deleteCourse(student, course, course.obj)"></button>
                             </td>
                             <td ng-show="editCourse">
