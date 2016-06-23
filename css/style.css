@@ -101,3 +101,9 @@
   margin-right: 3%;
   font-size: 1.3em;
 }
+
+#grade-group,
+#addButton,
+#cancelButton {
+  margin-top: 5%;
+}
