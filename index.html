@@ -27,7 +27,7 @@
                     </small> -->
                 </h1>
                 <!-- only show this element when the user gets to a mobile version -->
-                <h3 class='visible-xs col-xs-12'>Colony High School Student System
+                <h3 class='visible-xs col-xs-12'>Colony High School SMS
                   <!-- Difficult to see utility in this -->
                     <!-- <small class="pull-right col-xs-6">Number of Students :
                         <span class="avgGrade label label-default">{{ sc.studentCount }}</span>
@@ -36,6 +36,13 @@
             </div>
 
             <div class="student-add-form col-sm-3 col-xs-12 form-horizontal pull-right to-do-container">
+              <h4 class="formHeader">Search</h4>
+              <div class="input-group">
+                  <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-search"></span>
+                  </span>
+                  <input type="text" class="form-control" placeholder="Search for a student" ng-model="searchStudent">
+              </div>
                 <h4 class="formHeader">To-Do List</h4>
                 <div ng-controller="todoController as tc">
                     <input id="todo" class="form-control" ng-model="tc.todo" ng-keyup="tc.addTodo()" type="text" placeholder="What needs to be done?">
@@ -54,14 +61,7 @@
                 <student-info info="addform" ng-show="showstudentform"></student-info>
                 <div class="group">
                     <button type="button" class="col-md-5 col-lg-5 col-xs-5 pull-left addButton btn btn-success" id="addButton" ng-show="showstudentform" ng-click="sc.submit(); showstudentform = ! showstudentform">Add</button>
-                    <button type="button" class="col-md-5 col-md-offset-2 col-lg-5 col-lg-offset-2 col-xs-5 col-xs-offest-2 btn btn-default" id="cancelButton" ng-show="showstudentform" ng-click="sc.clearInputs()">Cancel</button>
-                </div>
-                <h4 class="formHeader">Search</h4>
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-search"></span>
-                    </span>
-                    <input type="text" class="form-control" placeholder="Search for a student" ng-model="searchStudent">
+                    <button type="button" class="col-md-5 col-md-offset-2 col-lg-5 col-lg-offset-2 col-xs-5 col-xs-offset-2 btn btn-default" id="cancelButton" ng-show="showstudentform" ng-click="sc.clearInputs()">Cancel</button>
                 </div>
                 <h4 class="formHeader" ng-click="helpToggle = !helpToggle">Legend/Help</h4>
                 <ul ng-show="helpToggle">

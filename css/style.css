@@ -107,3 +107,8 @@
 #cancelButton {
   margin-top: 5%;
 }
+
+#addButton,
+#cancelButton {
+  margin-bottom: 5%;
+}
