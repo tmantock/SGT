@@ -20,16 +20,18 @@
         <div class="container" ng-controller="studentController as sc">
             <div class="page-header">
                 <!-- only show this element when the isnt on mobile -->
-                <h1 class='hidden-xs col-md-12'>Colony High School Student System
-                    <small class="pull-right col-sm-4">Number of Students :
+                <h1 class='hidden-xs col-md-12'>Colony High School SMS
+                  <!-- Difficult to see the value this provides -->
+                    <!-- <small class="pull-right col-sm-4">Number of Students :
                         <span class="avgGrade label label-default">{{ sc.studentCount }}</span>
-                    </small>
+                    </small> -->
                 </h1>
                 <!-- only show this element when the user gets to a mobile version -->
                 <h3 class='visible-xs col-xs-12'>Colony High School Student System
-                    <small class="pull-right col-xs-6">Number of Students :
+                  <!-- Difficult to see utility in this -->
+                    <!-- <small class="pull-right col-xs-6">Number of Students :
                         <span class="avgGrade label label-default">{{ sc.studentCount }}</span>
-                    </small>
+                    </small> -->
                 </h3>
             </div>
 
@@ -50,7 +52,7 @@
                 </div>
                 <h4 ng-click="showstudentform = ! showstudentform" class="formHeader">Add New Student</h4>
                 <student-info info="addform" ng-show="showstudentform"></student-info>
-                <div class="form-group">
+                <div class="group">
                     <button type="button" class="col-md-5 col-sm-5 pull-left addButton btn btn-success" id="addButton" ng-show="showstudentform" ng-click="sc.submit(); showstudentform = ! showstudentform">Add</button>
                     <button type="button" class="col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-1 btn btn-default" id="cancelButton" ng-show="showstudentform" ng-click="sc.clearInputs()">Cancel</button>
                 </div>
@@ -61,6 +63,15 @@
                     </span>
                     <input type="text" class="form-control" placeholder="Search for a student" ng-model="searchStudent">
                 </div>
+                <h4 class="formHeader" ng-click="helpToggle = !helpToggle">Legend/Help</h4>
+                <ul ng-show="helpToggle">
+                  <li>Press on Add Student to add a student.</li>
+                  <li>Click on a student's name to see information about their guardians.</li>
+                  <li>Click on a student's grade level to see their class information.</li>
+                  <li>Click on the green "Add button" to add a course or student.</li>
+                  <li>Click on the blue "Edit button" to edit a student's information.</li>
+                  <li>Click on the red "Delete" icon to permanently delete the student from the database.</li>
+                </ul>
             </div>
 
             <div class="student-list-container col-sm-9 col-xs-12">
