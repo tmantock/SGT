@@ -9,15 +9,8 @@ app.service("studentTableService", ["$firebaseArray", function($firebaseArray) {
             id: student.id,
             name: student.name,
             grade: student.grade,
-            guardians: '',
             courses: ''
         });
-    };
-
-    self.addGuardian = function(guardian, guardianObj) {
-        console.log('in edit function', guardianObj);
-        var studentFirebaseRef = firebaseRef.child(guardian.$id).child('guardians');
-        studentFirebaseRef.update(guardianObj);
     };
 
     self.addCourse = function(student, courseObj) {
@@ -34,15 +27,6 @@ app.service("studentTableService", ["$firebaseArray", function($firebaseArray) {
       });
     };
 
-    self.editGuardian = function (guardian, guardianObj, guardianObject) {
-      var studentFirebaseRef = firebaseRef.child(guardian).child('guardians').child(guardianObj);
-      studentFirebaseRef.update({
-        relationship: toTitleCase(guardianObject.newRelationship),
-        name: toTitleCase(guardianObject.newName),
-        contact: guardianObject.newContact
-      });
-    };
-
     self.editCourse = function (course, courseObj, courseObject) {
       var studentFirebaseRef = firebaseRef.child(course).child('courses').child(courseObj);
       studentFirebaseRef.update({
@@ -54,10 +38,6 @@ app.service("studentTableService", ["$firebaseArray", function($firebaseArray) {
 
     self.deleteStudent = function(key, index) {
         firebaseRef.child(key).remove();
-    };
-
-    self.deleteGuardian = function(key, index) {
-        firebaseRef.child(key).child('guardians').child(index).remove();
     };
 
     self.deleteCourse = function(key, index) {
