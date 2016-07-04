@@ -102,3 +102,11 @@
 #addButton, #cancelButton {
     margin-bottom: 5%;
 }
+
+.subrow.ng-hide-add, .subrow.ng-hide-remove {
+  transition: all linear 0.5s;
+}
+
+.subrow.ng-hide {
+  opacity:0;
+}

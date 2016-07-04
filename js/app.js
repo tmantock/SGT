@@ -1,1 +1,1 @@
-var app = angular.module("studentTable",["firebase","ui.bootstrap"]);
+var app = angular.module("studentTable",["firebase","ngAnimate","ui.bootstrap"]);
