@@ -102,3 +102,8 @@
 #addButton, #cancelButton {
     margin-bottom: 5%;
 }
+
+.checkbox label::after {
+  padding-left: 2px;
+  padding-top: 10px;
+}
