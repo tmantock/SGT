@@ -20,11 +20,6 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     self.student.id = randomID();
     self.student.name = '';
     self.student.grade = '';
-    self.guardians = {
-        name: '',
-        relationship: '',
-        contact: ''
-    };
     self.courses = {
         course: '',
         instructor: '',
@@ -38,56 +33,6 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     self.submit = function() {
         studentTableService.addStudent(self.student);
         clearInputs();
-    };
-
-    self.addGuardian = function(student, object) {
-        var objectArray = [];
-        for (var index in object) {
-            objectArray.push(index);
-        }
-        var contact = numberFactory(self.guardians.contact);
-        var name = toTitleCase(self.guardians.name);
-        var relationship = toTitleCase(self.guardians.relationship);
-        self.guardians.contact = contact;
-        self.guardians.name = name;
-        self.guardians.relationship = relationship;
-        var guardianObj;
-        if (typeof objectArray == 'undefined') {
-            if (contact.length === 12) {
-                guardianObj = {
-                    primaryGuardian: self.guardians
-                };
-                guardianObj.primaryGuardian.obj = "primaryGuardian";
-                studentTableService.addGuardian(student, guardianObj);
-                console.log(self.guardians);
-                clearInputs();
-            } else {
-                self.modalText = "Please enter a valid 10-digit number";
-                $("#modal").modal('show');
-                console.log(self.modalText);
-                clearInputs();
-            }
-        } else {
-            if (objectArray.length <= 1) {
-                if (contact.length === 12) {
-                    guardianObj = {
-                        secondaryGuardian: self.guardians
-                    };
-                    guardianObj.secondaryGuardian.obj = "secondaryGuardian";
-                    studentTableService.addGuardian(student, guardianObj);
-                    console.log(self.guardians);
-                    clearInputs();
-                } else {
-                    self.modalText = "Please enter a valid 10-digit number";
-                    $("#modal").modal('show');
-                    console.log(self.modalText);
-                }
-            } else {
-                $("#modal").modal('show');
-                self.modalText = "Maximmum Number of Guardians has been reached.";
-                console.log(self.modalText);
-            }
-        }
     };
 
     self.addCourse = function(student) {
@@ -109,22 +54,6 @@ app.controller("studentController", ["studentTableService", function(studentTabl
         studentObj.newGrade = student.grade;
         studentTableService.editStudent(student.$id, studentObj);
         console.log(studentObj);
-    };
-
-    self.editGuardian = function(student, guardian, guardianObj) {
-        var guardianObject = {};
-        var contact = numberFactory(guardian.contact);
-        guardian.contact = contact;
-        guardianObject.newRelationship = guardian.relationship;
-        guardianObject.newName = guardian.name;
-        guardianObject.newContact = guardian.contact;
-        if (contact.length === 12) {
-            studentTableService.editGuardian(student.$id, guardianObj, guardianObject);
-        } else {
-            $("#modal").modal('show');
-            self.modalText = "Please enter a valid 10-digit number";
-            console.log(self.modalText);
-        }
     };
 
     self.editCourse = function(student, course, courseObj) {
@@ -198,10 +127,6 @@ app.controller("studentController", ["studentTableService", function(studentTabl
 
     self.deleteStudent = function(key) {
         studentTableService.deleteStudent(key.$id);
-    };
-
-    self.deleteGuardian = function(key, element) {
-        studentTableService.deleteGuardian(key.$id, element);
     };
 
     self.deleteCourse = function(key, element) {

@@ -94,7 +94,7 @@
                     <tbody>
                         <tr ng-repeat-start="student in sc.students | orderBy: sc.sortType:sc.sortReverse | filter: searchStudent">
                             <td>{{ student.id }}</td>
-                            <td ng-hide="editStudent" ng-model="student.name" ng-click="showGuardians = ! showGuardians; sc.guardianExpand();">{{ student.name }}</td>
+                            <td ng-hide="editStudent" ng-model="student.name">{{ student.name }}</td>
                             <td ng-show="editStudent">
                                 <input class="form-control" type="text" name="editStudentName" id="editStudentName" ng-model="student.name">
                             </td>
@@ -109,63 +109,6 @@
                             <td ng-show="editStudent">
                                 <button class="btn btn-success edit-btn btn-circle glyphicon glyphicon-ok" ng-click="sc.editStudent(student); editStudent=!editStudent"></button>
                                 <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-remove" ng-click="editStudent=!editStudent"></button>
-                            </td>
-                        </tr>
-                        <tr class="subhead" ng-show="showGuardians">
-                            <td>
-                                Relationship
-                            </td>
-                            <td>
-                                Name
-                            </td>
-                            <td>
-                                Contact
-                            </td>
-                            <td>
-                                <button class="btn btn-success add-btn btn-circle glyphicon glyphicon-plus" ng-click="showGuardianInput =!showGuardianInput"></button>
-                            </td>
-                        </tr>
-                        <tr class="subrow" ng-show="showGuardians" ng-repeat="guardian in student.guardians">
-                            <td ng-hide="editGuardian" ng-model="guardian.relationship">
-                                {{ guardian.relationship }}
-                            </td>
-                            <td ng-show="editGuardian">
-                                <input class="form-control" type="text" name="editGuardianRelationship" id="editGuardianRelationship" ng-model="guardian.relationship">
-                            </td>
-                            <td ng-hide="editGuardian" ng-model="guardian.name">
-                                {{ guardian.name }}
-                            </td>
-                            <td ng-show="editGuardian">
-                                <input class="form-control" type="text" name="editGuardianRelationship" id="editGuardianName" ng-model="guardian.name">
-                            </td>
-                            <td ng-hide="editGuardian" ng-model="guardian.contact">
-                                {{ guardian.contact }}
-                            </td>
-                            <td ng-show="editGuardian">
-                                <input class="form-control" type="text" name="editGuardianContact" id="editGuardianContact" ng-model="guardian.contact">
-                            </td>
-                            <td ng-hide="editGuardian">
-                                <button class="btn btn-primary edit-btn btn-circle glyphicon glyphicon-edit" ng-click="editGuardian = !editGuardian"></button>
-                                <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-trash" ng-click="sc.deleteGuardian(student, guardian.obj)"></button>
-                            </td>
-                            <td ng-show="editGuardian">
-                                <button class="btn btn-success edit-btn btn-circle glyphicon glyphicon-ok" ng-click="sc.editGuardian(student, guardian, guardian.obj); editGuardian = !editGuardian"></button>
-                                <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-remove" ng-click="editGuardian = !editGuardian"></button>
-                            </td>
-                        </tr>
-                        <tr ng-show="showGuardianInput">
-                            <td>
-                                <input class="form-control" type="text" name="insertGuardianRelationship" id="insertGuardianRelationship" ng-model="sc.guardians.relationship">
-                            </td>
-                            <td>
-                                <input class="form-control" type="text" name="insertGuardianName" id="insertGuardianName" ng-model="sc.guardians.name">
-                            </td>
-                            <td>
-                                <input class="form-control" type="text" name="insertGuardianContact" id="insertGuardianContact" ng-model="sc.guardians.contact">
-                            </td>
-                            <td>
-                                <button class="btn btn-success edit-btn btn-circle glyphicon glyphicon-ok" ng-click="sc.addGuardian(student , student.guardians)"></button>
-                                <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-remove" ng-click="sc.clearInputs(student)"></button>
                             </td>
                         </tr>
                         <tr class="subhead" ng-show="showCourses">
