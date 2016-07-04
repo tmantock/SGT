@@ -17,7 +17,7 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     self.student = {};
     self.student.name = '';
     self.student.grade = '';
-    self.student.id = randomID();
+    self.student.id = 0;
     self.student.name = '';
     self.student.grade = '';
     self.courses = {
@@ -31,6 +31,7 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     self.modalText = '';
 
     self.submit = function() {
+      self.generateID();
         studentTableService.addStudent(self.student);
         clearInputs();
     };
@@ -136,6 +137,11 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     self.clearInputs = function() {
         clearInputs();
     };
+
+    self.generateID = function () {
+      var number = Math.floor(Math.random() * 90000) + 10000000;
+      self.student.id = number;
+    };
 }]);
 
 function courseCheck(course, array) {
@@ -153,11 +159,6 @@ function numberFactory(string) {
     var formattedNumber = strippedNumber.replace(/(\d\d\d)(\d\d\d)(\d\d\d\d)/, '$1-$2-$3');
     console.log(formattedNumber);
     return formattedNumber;
-}
-
-function randomID() {
-    var number = Math.floor(Math.random() * 90000) + 10000000;
-    return number;
 }
 
 function clearInputs() {
