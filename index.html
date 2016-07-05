@@ -64,13 +64,9 @@
                         Completed</p>
                 </div>
                 <h4 ng-click="showstudentform = ! showstudentform" class="formHeader">Add New Student</h4>
-                <student-info info="addform" ng-show="showstudentform"></student-info>
-                <div class="group">
-                    <button type="button" class="col-md-5 col-lg-5 col-xs-5 pull-left addButton btn btn-success" id="addButton" ng-show="showstudentform" ng-click="sc.submit(); showstudentform = ! showstudentform">Add</button>
-                    <button type="button" class="col-md-5 col-md-offset-2 col-lg-5 col-lg-offset-2 col-xs-5 col-xs-offset-2 btn btn-default" id="cancelButton" ng-show="showstudentform" ng-click="sc.clearInputs()">Cancel</button>
-                </div>
+                <student-info info="addform" ng-if="showstudentform" class="legend"></student-info>
                 <h4 class="formHeader" ng-click="helpToggle = !helpToggle">Legend/Help</h4>
-                <ul ng-show="helpToggle">
+                <ul ng-if="helpToggle" class="legend">
                     <li>Press on Add Student to add a student.</li>
                     <li>Click on a student's name to see information about their guardians.</li>
                     <li>Click on a student's grade level to see their class information.</li>
