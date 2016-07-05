@@ -107,3 +107,16 @@
   padding-left: 2px;
   padding-top: 10px;
 }
+
+.animate.ng-enter, .animate.ng-leave {
+  transition: 500ms ease-in all;
+  position: relative;
+  display: block;
+}
+
+.animate.ng-enter.ng-enter-active, .animate.ng-leave {
+  height: : 0;
+}
+.animate.ng-leave.ng-leave-active, .animate.ng-enter {
+  height: 100px;
+}

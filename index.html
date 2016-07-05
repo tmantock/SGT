@@ -5,15 +5,15 @@
         <title>Student Management System</title>
         <meta name="viewport" content="initial-scale=1, user-scalable=no">
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css" >
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.js"></script>
         <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
         <script src="https://cdn.firebase.com/libs/angularfire/1.1.4/angularfire.min.js"></script>
         <script src="js/ui-bootstrap-tpls-1.3.3.min.js"></script>
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
         <link rel="stylesheet" href="css/style.css">
     </head>
@@ -92,72 +92,72 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat-start="student in sc.students | orderBy: sc.sortType:sc.sortReverse | filter: searchStudent">
-                            <td>{{ student.id }}</td>
-                            <td ng-hide="editStudent" ng-model="student.name">{{ student.name }}</td>
-                            <td ng-show="editStudent">
+                        <div ng-repeat-start="student in sc.students | orderBy: sc.sortType:sc.sortReverse | filter: searchStudent" class="animate col-sm-12">
+                            <div class="col-sm-3">{{ student.id }}</div>
+                            <div class="col-sm-3" ng-hide="editStudent" ng-model="student.name">{{ student.name }}</div>
+                            <div class="col-sm-3" ng-show="editStudent">
                                 <input class="form-control" type="text" name="editStudentName" id="editStudentName" ng-model="student.name">
-                            </td>
-                            <td ng-hide="editStudent" ng-model="student.grade" ng-click="showCourses = ! showCourses; sc.courseExpand();">{{ student.grade }}</td>
-                            <td ng-show="editStudent">
+                            </div>
+                            <div class="col-sm-3" ng-hide="editStudent" ng-model="student.grade" ng-click="showCourses = ! showCourses; sc.courseExpand();">{{ student.grade }}</div>
+                            <div class="col-sm-3" ng-show="editStudent">
                                 <input class="form-control" type="text" name="editStudentGrade" id="editStudentGrade" ng-model="student.grade">
-                            </td>
-                            <td ng-hide="editStudent">
+                            </div>
+                            <div class="col-sm-3" ng-hide="editStudent">
                                 <button class="btn btn-primary edit-btn btn-circle glyphicon glyphicon-edit" ng-click="editStudent=!editStudent"></button>
                                 <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-trash" ng-click="sc.deleteStudent(student, $index)"></button>
-                            </td>
-                            <td ng-show="editStudent">
+                            </div>
+                            <div class="col-sm-3" ng-show="editStudent">
                                 <button class="btn btn-success edit-btn btn-circle glyphicon glyphicon-ok" ng-click="sc.editStudent(student); editStudent=!editStudent"></button>
                                 <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-remove" ng-click="editStudent=!editStudent"></button>
-                            </td>
-                        </tr>
-                        <tr class="subhead" ng-show="showCourses">
-                            <td>
+                            </div>
+                        </div>
+                        <div class="subhead col-sm-12" ng-show="showCourses" class="animate">
+                            <div class="col-sm-3">
                                 Instructor Name
-                            </td>
-                            <td>
+                            </div>
+                            <div class="col-sm-3">
                                 Course
-                            </td>
-                            <td>
+                            </div>
+                            <div class="col-sm-3">
                                 Grade
-                            </td>
-                            <td>
+                            </div>
+                            <div class="col-sm-3">
                                 <button class="btn btn-success add-btn btn-circle glyphicon glyphicon-plus" ng-click="showCourseInput = ! showCourseInput"></button>
-                            </td>
-                        </tr>
-                        <tr class="subrow" ng-show="showCourses" ng-repeat="course in student.courses">
-                            <td ng-model="course.instructor" ng-hide="editCourse">
+                            </div>
+                        </div>
+                        <div class="subrow animate col-sm-12" ng-show="showCourses" ng-repeat="course in student.courses">
+                            <div class="col-sm-3" ng-model="course.instructor" ng-hide="editCourse">
                                 {{ course.instructor }}
-                            </td>
-                            <td ng-show="editCourse">
+                            </div>
+                            <div class="col-sm-3" ng-show="editCourse">
                                 <input class="form-control" type="text" name="editInstructorName" id="editInstructorName" ng-model="course.instructor">
-                            </td>
-                            <td ng-model="course.course" ng-hide="editCourse">
+                            </div>
+                            <div class="col-sm-3" ng-model="course.course" ng-hide="editCourse">
                                 {{ course.course }}
-                            </td>
-                            <td ng-show="editCourse">
+                            </div>
+                            <div class="col-sm-3" ng-show="editCourse">
                                 <input class="form-control" type="text" name="editCourseName" id="editCourseName" ng-model="course.course">
-                            </td>
-                            <td ng-model="course.grade" ng-hide="editCourse">
+                            </div>
+                            <div class="col-sm-3" ng-model="course.grade" ng-hide="editCourse">
                                 {{ course.grade }}
-                            </td>
-                            <td ng-show="editCourse">
+                            </div>
+                            <div class="col-sm-3" ng-show="editCourse">
                                 <input class="form-control" type="text" name="editCourseGrade" id="editCourseGrade" ng-model="course.grade">
-                            </td>
-                            <td ng-hide="editCourse">
+                            </div>
+                            <div class="col-sm-3" ng-hide="editCourse">
                                 <button class="btn btn-primary edit-btn btn-circle glyphicon glyphicon-edit" ng-click="editCourse = !editCourse"></button>
                                 <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-trash" ng-click="sc.deleteCourse(student, course, course.obj)"></button>
-                            </td>
-                            <td ng-show="editCourse">
+                            </div>
+                            <div class="col-sm-3" ng-show="editCourse">
                                 <button class="btn btn-success edit-btn btn-circle glyphicon glyphicon-ok" ng-click="sc.editCourse(student, course, course.obj); editCourse = !editCourse"></button>
                                 <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-remove" ng-click="editCourse = !editCourse"></button>
-                            </td>
-                        </tr>
-                        <tr ng-show="showCourseInput" ng-repeat-end>
-                            <td>
+                            </div>
+                        </div>
+                        <div ng-show="showCourseInput" class="animate col-sm-12" ng-repeat-end>
+                            <div class="col-sm-3">
                                 <input class="form-control" type="text" name="insertInstructorName" id="insertInstructorName" placeholder="Instructor Name" ng-model="sc.courses.instructor">
-                            </td>
-                            <td>
+                            </div>
+                            <div class="col-sm-3">
                                 <input
                                     class="form-control"
                                     uib-typeahead="course for course in sc.courseList | filter: $viewValue | limitTo: 8"
@@ -169,15 +169,15 @@
                                     id="insertCourse"
                                     placeholder="Course Name"
                                     ng-model="sc.courses.course">
-                            </td>
-                            <td>
+                            </div>
+                            <div class="col-sm-3">
                                 <input class="form-control" type="text" name="insertCourseGrade" id="insertCourseGrade" placeholder="Course Grade" ng-model="sc.courses.grade">
-                            </td>
-                            <td>
+                            </div>
+                            <div class="col-sm-3">
                                 <button class="btn btn-success edit-btn btn-circle glyphicon glyphicon-ok" ng-click="sc.addCourse(student); showCourseInput = ! showCourseInput"></button>
                                 <button class="btn btn-danger delete-btn btn-circle glyphicon glyphicon-remove" ng-click="sc.clearInputs(); showCourseInput = ! showCourseInput"></button>
-                            </td>
-                        </tr>
+                            </div>
+                        </div>
                     </tbody>
                 </table>
             </div>
