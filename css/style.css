@@ -102,3 +102,42 @@
 #addButton, #cancelButton {
     margin-bottom: 5%;
 }
+
+.checkbox label::after {
+  padding-left: 2px;
+  padding-top: 10px;
+}
+
+.animate-repeat.ng-move,
+.animate-repeat.ng-enter,
+.animate-repeat.ng-leave,
+.animate-repeat.ng-hide-add, .animate-repeat.ng-hide-remove {
+  -webkit-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+}
+
+.animate-repeat.ng-leave.ng-leave-active,
+.animate-repeat.ng-move,
+.animate-repeat.ng-enter {
+  opacity:0;
+  max-height:0;
+}
+
+.animate-repeat.ng-leave,
+.animate-repeat.ng-move.ng-move-active,
+.animate-repeat.ng-enter.ng-enter-active,
+.animate-repeat.ng-hide-remove {
+  opacity:1;
+  max-height:40px;
+}
+
+.subrow.ng-enter,
+.subhead.ng-enter {
+  transition: all linear 0.5s;
+  opacity: 0;
+}
+
+.subrow.ng-enter.ng-enter-active,
+.subhead.ng-enter.ng-enter-active {
+  opacity: 1;
+}
