@@ -132,12 +132,14 @@
 }
 
 .subrow.ng-enter,
-.subhead.ng-enter {
+.subhead.ng-enter,
+.legend.ng-enter {
   transition: all linear 0.5s;
   opacity: 0;
 }
 
 .subrow.ng-enter.ng-enter-active,
-.subhead.ng-enter.ng-enter-active {
+.subhead.ng-enter.ng-enter-active,
+.legend.ng-enter.ng-enter-active {
   opacity: 1;
 }
