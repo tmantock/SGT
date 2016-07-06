@@ -120,7 +120,6 @@
 .animate-repeat.ng-move,
 .animate-repeat.ng-enter {
   opacity:0;
-  max-height:0;
 }
 
 .animate-repeat.ng-leave,
@@ -128,7 +127,6 @@
 .animate-repeat.ng-enter.ng-enter-active,
 .animate-repeat.ng-hide-remove {
   opacity:1;
-  max-height:40px;
 }
 
 .subrow.ng-enter,
