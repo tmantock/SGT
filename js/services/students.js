@@ -122,7 +122,9 @@ app.service("studentTableService", ["$firebaseArray", function($firebaseArray) {
  }]);
 
 app.service("courses", ["$firebaseArray", function ($firebaseArray) {
-
+  var self = this,
+  firebaseCourseRef = new Firebase("https://studentgrade.firebaseio.com/c");
+  self.list = $firebaseArray(firebaseCourseRef);
 }]);
 
 app.service("parents", ["$firebaseArray", function ($firebaseArray) {
@@ -143,5 +145,7 @@ app.service("asdf", ["$firebaseArray", "$timeout", function ($firebaseArray,$tim
 }]);
 
 app.service("instructors", ["$firebaseArray", function ($firebaseArray) {
-
+  var self = this,
+  firebaseInstructorRef = new Firebase("https://studentgrade.firebaseio.com/teachers");
+  self.list = $firebaseArray(firebaseInstructorRef);
 }]);
