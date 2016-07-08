@@ -92,7 +92,9 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     };
 
     self.deleteStudent = function(student) {
-        self.students.$remove(student);
+        self.students.$remove(student).then(function (ref) {
+          console.log("Removed: " , ref);
+        });
     };
 }]);
 
