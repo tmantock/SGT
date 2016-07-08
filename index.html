@@ -9,7 +9,7 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.js"></script>
         <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
         <script src="https://cdn.firebase.com/libs/angularfire/1.1.4/angularfire.min.js"></script>
@@ -24,16 +24,16 @@
                 <!-- only show this element when the isnt on mobile -->
                 <h1 class='hidden-xs col-md-12'>Student Grade Table
                     <!-- Difficult to see the value this provides -->
-                    <!-- <small class="pull-right col-sm-4">Number of Students :
-                        <span class="avgGrade label label-default">{{ sc.studentCount }}</span>
-                    </small> -->
+                    <small class="pull-right">Average Grade :
+                        <span class="avgGrade label label-default">{{ sc.average }}</span>
+                    </small>
                 </h1>
                 <!-- only show this element when the user gets to a mobile version -->
                 <h3 class='visible-xs col-xs-12'>Student Grade Table
                     <!-- Difficult to see utility in this -->
-                    <!-- <small class="pull-right col-xs-6">Number of Students :
-                        <span class="avgGrade label label-default">{{ sc.studentCount }}</span>
-                    </small> -->
+                    <small class="pull-right">Average Grade :
+                        <span class="avgGrade label label-default">{{ sc.average }}</span>
+                    </small>
                 </h3>
             </div>
 
@@ -82,7 +82,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="student in sc.students | orderBy: sc.sortType:sc.sortReverse | filter: searchStudent" class="animate-repeat">
+                        <tr ng-repeat="student in sc.students | orderBy: sc.sortType:sc.sortReverse | filter: searchStudent" class="animate-repeat" ng-class="{'danger': sc.dangerCheck(student.grade), 'warning': sc.warningCheck(student.grade)}">
                             <td class="col-sm-3">{{ student.name }}</td>
                             <td class="col-sm-3" ng-model="student.name">{{ student.assignment }}</td>
                             <td class="col-sm-3" ng-model="student.grade">{{ student.grade }}</td>
