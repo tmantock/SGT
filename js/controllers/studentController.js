@@ -1,164 +1,101 @@
 app.controller("studentController", ["studentTableService", function(studentTableService) {
     var self = this;
-    self.courseArray = [
-        ['pre algebra', 'algebra i', 'algebra ii', 'geometry', 'statistics', 'calculus', 'math'],
-        ['earth science', 'biology', 'chemisty', 'anatomy', 'physics', 'science'],
-        ['english i', 'english ii', 'english iii', 'comparative literature', 'reading comprehension', 'english'],
-        ['french i', 'french ii', 'french iii', 'spanish i', 'spanish ii', 'spanish iii', 'language'],
-        ['shop', 'marching band', 'concert band', 'jazz band', 'choir', 'drama', 'music appreciation', 'elective'],
-        ['physical education', 'football', 'water polo', 'physed'],
-        ['economics', 'history', 'government', 'social']
-    ];
-    self.courseList = ['Pre Algebra', 'Algebra I', 'Algebra II', 'Geometry', 'Statistics', 'Calculus', 'Earth Science', 'Biology', 'Chemistry', 'Anatomy', 'Physics', 'English I', 'English II', 'English III', 'Comparative Literature', 'Reading Comprehension', 'French I', 'French II', 'French III', 'Spanish I', 'Spanish II', 'Spanish III', 'Shop', 'Marching Band', 'Concert Band', 'Jazz Band', 'Choir', 'Drama', 'Music Appreciation', 'Physical Education', 'Football', 'Water Polo', 'Economics', 'History', 'Government'];
-    self.students = studentTableService.students;
-    self.students.$loaded().then(function() {
-        self.studentCount = self.students.length;
-    });
+    self.assignmentArray = [];
     self.student = {};
-    self.student.name = '';
-    self.student.grade = '';
-    self.student.id = 0;
-    self.student.name = '';
-    self.student.grade = '';
-    self.courses = {
-        course: '',
-        instructor: '',
-        grade: ''
+    self.newStudent = {};
+    self.editStudent = {
+
     };
+    self.students = studentTableService.students;
+    self.students.$loaded().then(function () {
+      for(let i = 0; i < self.students.length; i++){
+        self.students[i].grade = parseInt(self.students[i].grade);
+        self.assignmentArray.push(self.students[i].assignment);
+      }
+      console.log(self.assignmentArray);
+    });
     self.sortType = 'name';
     self.sortReverse = false;
     self.search = '';
     self.modalText = '';
 
-    self.submit = function() {
-      self.generateID();
-        studentTableService.addStudent(self.student);
+    self.addStudent = function() {
+      if(self.newStudent.name !== '' && self.newStudent.assignment !== '' && self.newStudent.grade !== ''){
+      var name = toTitleCase(self.newStudent.name);
+      var assignment = toTitleCase(self.newStudent.assignment);
+      if(gradeReg(self.newStudent.grade) && nameReg(name) && assignmentReg(assignment)){
+        self.students.$add(self.student).then(function (ref) {
+          console.log("Added: " , ref.key());
+        });
         clearInputs();
+      } else {
+        self.modalText = "Error: Please input a valid Name, Assignment, and Grade";
+        $("#modal").modal("show");
+      }
+    } else {
+      self.modalText = "Error: Please input a Name, Assignment, and Grade in the input field";
+      $("#modal").modal("show");
+    }
+
     };
 
-    self.addCourse = function(student) {
-        var course = self.courses.course;
-        var courseToAdd = self.generateSubject(course, self.courseArray);
-        if (courseToAdd != "course not found") {
-            studentTableService.addCourse(student.$id, courseToAdd);
+    self.editStudentObject = function(student) {
+      self.editStudent.name = student.name;
+      self.editStudent.assignment = student.assignment;
+      self.editStudent.grade = student.grade;
+      self.student = student;
+      $("#edit-modal").modal("show");
+    };
+
+    self.confirmStudentEdit = function () {
+      console.log(self.editStudent);
+      if(self.editStudent.name !== '' && self.editStudent.assignment !== '' && self.editStudent.grade !== ''){
+        var name = toTitleCase(self.editStudent.name);
+        var assignment = toTitleCase(self.editStudent.assignment);
+        var grade = self.editStudent.grade;
+        console.log(grade);
+        if(gradeReg(grade) && nameReg(name) && assignmentReg(assignment)){
+          self.student.name = self.editStudent.name;
+          self.student.assignment = self.editStudent.assignment;
+          self.student.grade = self.editStudent.grade;
+          self.students.$save(self.student).then(function (ref) {
+            console.log("Edited: " + ref.key());
+          });
+          clearInputs();
         } else {
-            $("#modal").modal('show');
-            self.modalText = "Please enter a valid course." + course + " is not a valid course.";
-            console.log(self.modalText);
+          self.modalText = "Error: Please input a valid Name, Assignment, and Grade";
+          $("#modal").modal("show");
         }
-        clearInputs();
+      } else {
+        self.modalText = "Error: Please input a Name, Assignment, and Grade in the input field";
+        $("#modal").modal("show");
+      }
+
     };
 
-    self.editStudent = function(student) {
-        var studentObj = {};
-        studentObj.newName = student.name;
-        studentObj.newGrade = student.grade;
-        studentTableService.editStudent(student.$id, studentObj);
-        console.log(studentObj);
-    };
-
-    self.editCourse = function(student, course, courseObj) {
-        var courseObject = {};
-        courseObject.newInstructor = course.instructor;
-        courseObject.newCourse = course.course;
-        courseObject.newGrade = course.grade;
-        console.log(courseObject);
-        studentTableService.editCourse(student.$id, courseObj, courseObject);
-    };
-
-    self.generateSubject = function(course, array) {
-        var subject = courseCheck(course, array);
-        self.courses.course = toTitleCase(self.courses.course);
-        self.courses.instructor = toTitleCase(self.courses.instructor);
-        switch (subject) {
-            case 'math':
-                var math = {
-                    math: self.courses
-                };
-                math.math.obj = "math";
-                console.log(math);
-                return math;
-            case 'science':
-                var science = {
-                    science: self.courses
-                };
-                science.science.obj = "science";
-                console.log(science);
-                return science;
-            case 'english':
-                var english = {
-                    english: self.courses
-                };
-                english.english.obj = "english";
-                console.log(english);
-                return english;
-            case 'language':
-                var language = {
-                    language: self.courses
-                };
-                language.language.obj = "language";
-                console.log(language);
-                return language;
-            case 'elective':
-                var elective = {
-                    elective: self.courses
-                };
-                elective.elective.obj = "elective";
-                console.log(elective);
-                return elective;
-            case 'social':
-                var social = {
-                    social: self.courses
-                };
-                social.social.obj = "social";
-                console.log(social);
-                return social;
-            case 'physed':
-                var physed = {
-                    physed: self.courses
-                };
-                physed.physed.obj = "physed";
-                console.log(physed);
-                return physed;
-            default:
-                console.log("course not found");
-                break;
-        }
-    };
-
-    self.deleteStudent = function(key) {
-        studentTableService.deleteStudent(key.$id);
-    };
-
-    self.deleteCourse = function(key, element) {
-        studentTableService.deleteCourse(key.$id, element);
-    };
-
-    self.clearInputs = function() {
-        clearInputs();
-    };
-
-    self.generateID = function () {
-      var number = Math.floor(Math.random() * 90000) + 10000000;
-      self.student.id = number;
+    self.deleteStudent = function(student) {
+        self.students.$remove(student);
     };
 }]);
 
-function courseCheck(course, array) {
-    for (var i = 0; i < array.length; i++) {
-        for (var x = 0; x < array[i].length; x++) {
-            if (course.toLowerCase() == array[i][x]) {
-                return array[i][(array[i].length - 1)];
-            }
-        }
-    }
+function nameReg(string) {
+  var exp = /^[a-z ,.'-]+$/i;
+  var test = exp.test(string);
+  console.log("Name Reg: " , test);
+  return test;
 }
 
-function numberFactory(string) {
-    var strippedNumber = string.replace(/\D/g, '');
-    var formattedNumber = strippedNumber.replace(/(\d\d\d)(\d\d\d)(\d\d\d\d)/, '$1-$2-$3');
-    console.log(formattedNumber);
-    return formattedNumber;
+function assignmentReg(string) {
+  var exp = /^[a-zA-Z 0-9\#]*$/.test(string);
+  console.log("Assignment Reg: " , exp);
+  return exp;
+}
+
+function gradeReg (string) {
+  console.log(string);
+  var exp = /^[0-9]{1,3}$/.test(string);
+  console.log("Grade Reg: " , exp);
+  return exp;
 }
 
 function clearInputs() {

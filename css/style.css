@@ -1,5 +1,5 @@
 * {
-    font-family: Robot, sans-serif;
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .subrow {
     background: #f1efef
@@ -140,4 +140,9 @@
 .subhead.ng-enter.ng-enter-active,
 .legend.ng-enter.ng-enter-active {
   opacity: 1;
+}
+
+td,
+th {
+  font-size: 15px;
 }
