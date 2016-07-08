@@ -1,18 +1,20 @@
 app.controller("studentController", ["studentTableService", function(studentTableService) {
     var self = this;
     self.assignmentArray = [];
+    self.average = 0;
     self.student = {};
     self.newStudent = {};
-    self.editStudent = {
-
-    };
+    self.editStudent = {};
     self.students = studentTableService.students;
     self.students.$loaded().then(function () {
+      let number = 0;
       for(let i = 0; i < self.students.length; i++){
         self.students[i].grade = parseInt(self.students[i].grade);
         self.assignmentArray.push(self.students[i].assignment);
+        number += self.students[i].grade;
       }
-      console.log(self.assignmentArray);
+      number = number / self.students.length;
+      self.average = number.toFixed(0);
     });
     self.sortType = 'name';
     self.sortReverse = false;
@@ -72,6 +74,23 @@ app.controller("studentController", ["studentTableService", function(studentTabl
       }
 
     };
+
+    self.dangerCheck = function (grade) {
+      if(parseInt(grade) <= 60){
+        return true;
+      }
+      else {
+        return false;
+      }
+    };
+
+    self.warningCheck = function (grade) {
+      if(parseInt(grade) >= 61 && parseInt(grade) <= 72){
+        return true;
+      } else {
+        return false;
+      }
+    }
 
     self.deleteStudent = function(student) {
         self.students.$remove(student);
