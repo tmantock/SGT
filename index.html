@@ -73,12 +73,10 @@
                 <table class="table table-striped table-hover student-list" id="student-table">
                     <thead>
                         <tr>
-                            <th ng-click="sc.sortType = 'name'">Student Name<span ng-click="sc.sortType = 'name'; sc.sortReverse = !sc.sortReverse" class="sort glyphicon glyphicon-sort"></span></th>
-                            <th ng-click="sc.sortType = 'assignment'">Student Assignment<span ng-click="sc.sortType = 'assignment'; sc.sortReverse = !sc.sortReverse" class="sort glyphicon glyphicon-sort"></span>
-                            </th>
-                            <th ng-click="sc.sortType = 'grade'">Grade<span ng-click="sc.sortType = 'grade'; sc.sortReverse = !sc.sortReverse" class="sort glyphicon glyphicon-sort"></span>
-                            </th>
-                            <th>Operations</th>
+                            <th class="col-xs-2" ng-click="sc.sortType = 'name'">Name<span ng-click="sc.sortType = 'name'; sc.sortReverse = !sc.sortReverse" class="sort glyphicon glyphicon-sort"></span></th>
+                            <th class="col-xs-4" ng-click="sc.sortType = 'assignment'">Assignment<span ng-click="sc.sortType = 'assignment'; sc.sortReverse = !sc.sortReverse" class="sort glyphicon glyphicon-sort"></span></th>
+                            <th class="col-xs-3" ng-click="sc.sortType = 'grade'">Grade<span ng-click="sc.sortType = 'grade'; sc.sortReverse = !sc.sortReverse" class="sort glyphicon glyphicon-sort"></span></th>
+                            <th class="col-xs-3">Operations</th>
                         </tr>
                     </thead>
                     <tbody>
