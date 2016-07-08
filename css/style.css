@@ -146,3 +146,14 @@ td,
 th {
   font-size: 15px;
 }
+
+ @media screen and (max-width: 627px) {
+   .student-list-container.col-sm-9.col-xs-12 {
+    padding: 0;
+   }
+
+   .table>thead>tr>th {
+     padding-left: 0;
+     padding-right: 0;
+   }
+ }
