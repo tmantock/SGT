@@ -87,8 +87,8 @@
                             <td class="col-sm-3" ng-model="student.name">{{ student.assignment }}</td>
                             <td class="col-sm-3" ng-model="student.grade">{{ student.grade }}</td>
                             <td class="col-sm-3">
-                                <button class="btn btn-primary" ng-click="sc.editStudentObject(student)">Edit</button>
-                                <button class="btn btn-danger" ng-click="sc.deleteStudent(student)">Remove</button>
+                                <button class="btn btn-primary btn-circle glyphicon glyphicon-edit" ng-click="sc.editStudentObject(student)"></button>
+                                <button class="btn btn-danger btn-circle glyphicon glyphicon-trash" ng-click="sc.deleteStudent(student)"></button>
                             </td>
                         </tr>
                     </tbody>
