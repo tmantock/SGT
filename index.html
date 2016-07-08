@@ -65,9 +65,12 @@
                 <table class="table table-striped table-hover student-list" id="student-table">
                     <thead>
                         <tr>
-                            <th class="col-xs-2" ng-click="sc.sortType = 'name'">Name<span ng-click="sc.sortType = 'name'; sc.sortReverse = !sc.sortReverse" class="sort glyphicon glyphicon-sort"></span></th>
-                            <th class="col-xs-4" ng-click="sc.sortType = 'assignment'">Assignment<span ng-click="sc.sortType = 'assignment'; sc.sortReverse = !sc.sortReverse" class="sort glyphicon glyphicon-sort"></span></th>
-                            <th class="col-xs-3" ng-click="sc.sortType = 'grade'">Grade<span ng-click="sc.sortType = 'grade'; sc.sortReverse = !sc.sortReverse" class="sort glyphicon glyphicon-sort"></span></th>
+                            <th class="col-xs-2" ng-click="sc.sortType = 'name'">Name<span ng-click="sc.sortType = 'name'; sc.sortReverse = !sc.sortReverse" class="sort glyphicon glyphicon-sort"></span>
+                            </th>
+                            <th class="col-xs-4" ng-click="sc.sortType = 'assignment'">Assignment<span ng-click="sc.sortType = 'assignment'; sc.sortReverse = !sc.sortReverse" class="sort glyphicon glyphicon-sort"></span>
+                            </th>
+                            <th class="col-xs-3" ng-click="sc.sortType = 'grade'">Grade<span ng-click="sc.sortType = 'grade'; sc.sortReverse = !sc.sortReverse" class="sort glyphicon glyphicon-sort"></span>
+                            </th>
                             <th class="col-xs-3">Operations</th>
                         </tr>
                     </thead>
@@ -98,7 +101,7 @@
                             <div class="modal-body">
                                 <form id="edit-form" class="form-horizontal">
                                     <fieldset>
-                                      <!-- Name Input -->
+                                        <!-- Name Input -->
                                         <div class="form-group">
                                             <label class="col-md-3 control-label" for="modal-edit-name">Student Name</label>
                                             <div class="col-md-9">
@@ -111,7 +114,17 @@
                                         <div class="form-group">
                                             <label class="col-md-3 control-label" for="modal-edit-assignment">Student Assignment</label>
                                             <div class="col-md-9">
-                                                <input ng-model="sc.editStudent.assignment" name="modal-edit-assignment" type="text" uib-typeahead="course for course in sc.assignmentArray | filter: $viewValue | limitTo: 8" data-toggle="popover" data-placement="toggle" ui-items="sc.assignmentArray" placeholder="Student Assignment" class="form-control input-md" required>
+                                                <input
+                                                    ng-model="sc.editStudent.assignment"
+                                                    name="modal-edit-assignment"
+                                                    type="text"
+                                                    uib-typeahead="course for course in sc.assignmentArray | filter: $viewValue | limitTo: 8"
+                                                    data-toggle="popover"
+                                                    data-placement="toggle"
+                                                    ui-items="sc.assignmentArray"
+                                                    placeholder="Student Assignment"
+                                                    class="form-control input-md"
+                                                    required>
                                                 <span class="help-block">Edit Assignment</span>
                                             </div>
                                         </div>
