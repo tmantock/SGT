@@ -61,9 +61,8 @@
     border: 1px solid #999;
     border-top: none;
 }
-.normal,
-.strikethrough  {
-  position: relative;
+.normal, .strikethrough {
+    position: relative;
     color: #000000;
     vertical-align: middle;
     padding: 7px 30px 7px 7px;
@@ -88,7 +87,7 @@
 .remove-task {
     position: absolute;
     top: 35%;
-    bottom:0;
+    bottom: 0;
     right: 1%;
     color: #EF4836;
     vertical-align: middle;
@@ -102,58 +101,36 @@
 #addButton, #cancelButton {
     margin-bottom: 5%;
 }
-
 .checkbox label::after {
-  padding-left: 2px;
-  padding-top: 10px;
+    padding-left: 2px;
+    padding-top: 10px;
 }
-
-.animate-repeat.ng-move,
-.animate-repeat.ng-enter,
-.animate-repeat.ng-leave,
-.animate-repeat.ng-hide-add, .animate-repeat.ng-hide-remove {
-  -webkit-transition:all linear 0.5s;
-  transition:all linear 0.5s;
+.animate-repeat.ng-move, .animate-repeat.ng-enter, .animate-repeat.ng-leave, .animate-repeat.ng-hide-add, .animate-repeat.ng-hide-remove {
+    -webkit-transition: all linear 0.5s;
+    transition: all linear 0.5s;
 }
-
-.animate-repeat.ng-leave.ng-leave-active,
-.animate-repeat.ng-move,
-.animate-repeat.ng-enter {
-  opacity:0;
+.animate-repeat.ng-leave.ng-leave-active, .animate-repeat.ng-move, .animate-repeat.ng-enter {
+    opacity: 0;
 }
-
-.animate-repeat.ng-leave,
-.animate-repeat.ng-move.ng-move-active,
-.animate-repeat.ng-enter.ng-enter-active,
-.animate-repeat.ng-hide-remove {
-  opacity:1;
+.animate-repeat.ng-leave, .animate-repeat.ng-move.ng-move-active, .animate-repeat.ng-enter.ng-enter-active, .animate-repeat.ng-hide-remove {
+    opacity: 1;
 }
-
-.subrow.ng-enter,
-.subhead.ng-enter,
-.legend.ng-enter {
-  transition: all linear 0.5s;
-  opacity: 0;
+.subrow.ng-enter, .subhead.ng-enter, .legend.ng-enter {
+    transition: all linear 0.5s;
+    opacity: 0;
 }
-
-.subrow.ng-enter.ng-enter-active,
-.subhead.ng-enter.ng-enter-active,
-.legend.ng-enter.ng-enter-active {
-  opacity: 1;
+.subrow.ng-enter.ng-enter-active, .subhead.ng-enter.ng-enter-active, .legend.ng-enter.ng-enter-active {
+    opacity: 1;
 }
-
-td,
-th {
-  font-size: 15px;
+td, th {
+    font-size: 15px;
 }
-
- @media screen and (max-width: 627px) {
-   .student-list-container.col-sm-9.col-xs-12 {
-    padding: 0;
-   }
-
-   .table>thead>tr>th {
-     padding-left: 0;
-     padding-right: 0;
-   }
- }
+@media screen and (max-width: 627px) {
+    .student-list-container.col-sm-9.col-xs-12 {
+        padding: 0;
+    }
+    .table>thead>tr>th {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
