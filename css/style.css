@@ -141,3 +141,8 @@
 .legend.ng-enter.ng-enter-active {
   opacity: 1;
 }
+
+td,
+th {
+  font-size: 15px;
+}
