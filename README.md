@@ -4,12 +4,12 @@ The Student Grade Table is a database management tool targeted towards teachers/
 
 ##Technologies Used:
 
-> - HTML5
-> - CSS3
-> - Bootstrap
-> - ui.Bootstrap
-> - AngularJS
-> - Firebase
+- HTML5
+- CSS3
+- Bootstrap
+- ui.Bootstrap
+- AngularJS
+- Firebase
 
 
 To view a live demo please visit <a href="http://tmantock.github.io/SGT/" target="_blank">here</a>.
