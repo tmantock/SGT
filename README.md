@@ -12,4 +12,4 @@ The Student Grade Table is a database management tool targeted towards teachers/
 - Firebase
 
 
-###[Live Demo](https://tmantock.github.io/calculator/)
+###[Live Demo](https://tmantock.github.io/SGT/)
