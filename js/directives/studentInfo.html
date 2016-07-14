@@ -1,0 +1,22 @@
+<div class="input-group">
+    <span class="input-group-addon">
+        <span class="glyphicon glyphicon-user"></span>
+    </span>
+    <input type="text" class="form-control" name="studentName" id="studentName" placeholder="Student Name" ng-model="sc.newStudent.name">
+</div>
+<div class="input-group">
+    <span class="input-group-addon">
+        <span class="glyphicon glyphicon-list"></span>
+    </span>
+    <input type="text" class="form-control" name="grade" id="assignemnet" class="form-control" uib-typeahead="course for course in sc.assignmentArray | filter: $viewValue | limitTo: 8" data-toggle="popover" data-placement="toggle" ui-items="sc.assignmentArray" placeholder="Student Assignment" ng-model="sc.newStudent.assignment">
+</div>
+<div class="input-group">
+    <span class="input-group-addon">
+        <span class="glyphicon glyphicon-education"></span>
+    </span>
+    <input type="text" class="form-control" name="grade" id="grade" placeholder="Student Grade" ng-model="sc.newStudent.grade">
+</div>
+<div class="group">
+    <button type="button" class="col-md-5 col-lg-5 col-xs-5 pull-left addButton btn btn-success" id="addButton" ng-click="sc.addStudent()">Add</button>
+    <button type="button" class="col-md-5 col-md-offset-2 col-lg-5 col-lg-offset-2 col-xs-5 col-xs-offset-2 btn btn-default" id="cancelButton" ng-click="sc.clearInputs()">Cancel</button>
+</div>

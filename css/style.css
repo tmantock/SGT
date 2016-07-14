@@ -1,0 +1,136 @@
+* {
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.subrow {
+    background: #f1efef
+}
+.formHeader, .table>thead>tr>th {
+    border-bottom: 2px solid #000000;
+}
+.table>tbody>tr>td {
+    line-height: 2;
+}
+.subhead {
+    font-weight: 600;
+    border-top: 2px solid #000000;
+    border-bottom: 2px solid #000000;
+}
+.btn-circle {
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.42;
+    border-radius: 17px;
+}
+.sort {
+    margin-left: 3px;
+}
+#todo {
+    width: 100%;
+    padding: 8px 6px 8px 30px;
+    border: none;
+    background: rgb(255, 255, 255);
+    box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
+    border: 1px solid #999;
+    border-radius: 0;
+}
+.to-do-container {
+    padding: 2%;
+    background: #f5f5f5;
+}
+.list {
+    box-sizing: border-box;
+    background: rgb(255, 255, 255);
+    width: 100%;
+    padding-bottom: 5px;
+    /*height: 34px;*/
+}
+.list-item {
+    font-weight: 400;
+}
+.sub-container {
+    padding-left: 2%;
+    background: #ffffff;
+}
+.border-wrap {
+    margin-left: -2%;
+    padding-left: 2%;
+    background: #ffffff;
+    border: 1px solid #999;
+    border-top: none;
+}
+.normal, .strikethrough {
+    position: relative;
+    color: #000000;
+    vertical-align: middle;
+    padding: 7px 30px 7px 7px;
+    margin-left: 5px;
+    display: block;
+    line-height: 1;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: pre-line;
+}
+.strikethrough {
+    color: #999;
+    text-decoration: line-through;
+    font-style: italic;
+}
+.task-track {
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #999;
+    border-top: none;
+}
+.remove-task {
+    position: absolute;
+    top: 35%;
+    bottom: 0;
+    right: 1%;
+    color: #EF4836;
+    vertical-align: middle;
+    font-size: 1.3em;
+    padding-bottom: 5px;
+    margin: auto 0;
+}
+#grade-group, #addButton, #cancelButton {
+    margin-top: 5%;
+}
+#addButton, #cancelButton {
+    margin-bottom: 5%;
+}
+.checkbox label::after {
+    padding-left: 2px;
+    padding-top: 10px;
+}
+.animate-repeat.ng-move, .animate-repeat.ng-enter, .animate-repeat.ng-leave, .animate-repeat.ng-hide-add, .animate-repeat.ng-hide-remove {
+    -webkit-transition: all linear 0.5s;
+    transition: all linear 0.5s;
+}
+.animate-repeat.ng-leave.ng-leave-active, .animate-repeat.ng-move, .animate-repeat.ng-enter {
+    opacity: 0;
+}
+.animate-repeat.ng-leave, .animate-repeat.ng-move.ng-move-active, .animate-repeat.ng-enter.ng-enter-active, .animate-repeat.ng-hide-remove {
+    opacity: 1;
+}
+.subrow.ng-enter, .subhead.ng-enter, .legend.ng-enter {
+    transition: all linear 0.5s;
+    opacity: 0;
+}
+.subrow.ng-enter.ng-enter-active, .subhead.ng-enter.ng-enter-active, .legend.ng-enter.ng-enter-active {
+    opacity: 1;
+}
+td, th {
+    font-size: 15px;
+}
+@media screen and (max-width: 627px) {
+    .student-list-container.col-sm-9.col-xs-12 {
+        padding: 0;
+    }
+    .table>thead>tr>th {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
