@@ -22,7 +22,7 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     self.modalText = '';
 
     self.addStudent = function() {
-        if (self.newStudent.name !== '' && self.newStudent.assignment !== '' && self.newStudent.grade !== '') {
+        if (self.newStudent.name !== '' && self.newStudent.assignment !== '' && self.newStudent.grade !== '' && typeof self.newStudent.name !== 'undefined' && typeof self.newStudent.assignment !== 'undefined' && typeof self.newStudent.grade !== 'undefined') {
             var name = self.toTitleCase(self.newStudent.name);
             var assignment = self.toTitleCase(self.newStudent.assignment);
             if (self.gradeReg(self.newStudent.grade) && self.nameReg(name) && self.assignmentReg(assignment)) {
@@ -31,7 +31,6 @@ app.controller("studentController", ["studentTableService", function(studentTabl
                 });
                 self.clearInputs();
             } else {
-                self.modalText = "Error: Please input a valid Name, Assignment, and Grade";
                 $("#modal").modal("show");
             }
         } else {
@@ -50,7 +49,7 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     };
 
     self.confirmStudentEdit = function() {
-        if (self.editStudent.name !== '' && self.editStudent.assignment !== '' && self.editStudent.grade !== '') {
+        if (self.editStudent.name !== '' && self.editStudent.assignment !== '' && self.editStudent.grade !== '' && typeof self.editStudent.name !== 'undefined' && typeof self.editStudent.assignment !== 'undefined' && typeof self.editStudent.grade !== 'undefined') {
             var name = self.toTitleCase(self.editStudent.name);
             var assignment = self.toTitleCase(self.editStudent.assignment);
             var grade = self.editStudent.grade;
@@ -63,7 +62,6 @@ app.controller("studentController", ["studentTableService", function(studentTabl
                 });
                 self.clearInputs();
             } else {
-                self.modalText = "Error: Please input a valid Name, Assignment, and Grade";
                 $("#modal").modal("show");
             }
         } else {
@@ -90,49 +88,54 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     };
 
     self.deleteStudent = function(student) {
-        self.students.$remove(student).then(function (ref) {
-          console.log("Removed: " , ref);
+        self.students.$remove(student).then(function(ref) {
+            console.log("Removed: ", ref);
         });
     };
 
-    self.clearInputs = function () {
-      for(var index in self.newStudent){
-        self.newStudent[index] = '';
-      }
+    self.clearInputs = function() {
+        for (var index in self.newStudent) {
+            self.newStudent[index] = '';
+        }
 
-      for(var input in self.editStudent){
-        self.editStudent[input] = '';
-      }
+        for (var input in self.editStudent) {
+            self.editStudent[input] = '';
+        }
     };
 
-    self.gradeReg = function (string) {
-      var number = parseInt(string);
-      var exp = /^[0-9]{1,3}$/.test(string);
-      if(exp === true && number <= 100){
-        return true;
-      } else if(exp === true && number > 100){
-        self.modalText = "Error: Please enter a valid number from 0 to 100 (no decimals).";
-        $("#modal").modal('show');
-        return false;
-      }else if(exp === false){
-        return false;
-      }
+    self.gradeReg = function(string) {
+        var number = parseInt(string);
+        var exp = /^[0-9]{1,3}$/.test(string);
+        if (exp === true && number <= 100) {
+            return true;
+        } else if (exp === true && number > 100) {
+            self.modalText = "Error: Please enter a valid number from 0 to 100 (no decimals).";
+            return false;
+        } else if (exp === false) {
+            return false;
+        }
     };
 
-    self.nameReg = function (string) {
-      var exp = /^[a-z ,.'-]+$/i;
-      var test = exp.test(string);
-      return test;
+    self.nameReg = function(string) {
+        var exp = /^[a-z ,.'-]+$/i;
+        var test = exp.test(string);
+        if (test === false) {
+            self.modalText = "Error: Please enter a valid name.";
+        }
+        return test;
     };
 
-    self.assignmentReg =function (string) {
-      var exp = /^[a-zA-Z 0-9\#]*$/.test(string);
-      return exp;
+    self.assignmentReg = function(string) {
+        var exp = /^[a-zA-Z 0-9\#]*$/.test(string);
+        if (exp === false) {
+            self.modalText = "Error: Please enter a valid assignment. (# are allowed)";
+        }
+        return exp;
     };
 
-    self.toTitleCase = function (str) {
-      return str.replace(/\w\S*/g, function(txt) {
-          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-      });
+    self.toTitleCase = function(str) {
+        return str.replace(/\w\S*/g, function(txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
     };
 }]);
