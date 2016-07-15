@@ -63,7 +63,6 @@ app.controller("studentController", ["studentTableService", function(studentTabl
                 });
                 self.clearInputs();
             } else {
-                self.modalText = "Error: Please input a valid Name, Assignment, and Grade";
                 $("#modal").modal("show");
             }
         } else {
@@ -112,7 +111,6 @@ app.controller("studentController", ["studentTableService", function(studentTabl
         return true;
       } else if(exp === true && number > 100){
         self.modalText = "Error: Please enter a valid number from 0 to 100 (no decimals).";
-        $("#modal").modal('show');
         return false;
       }else if(exp === false){
         return false;
@@ -122,11 +120,17 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     self.nameReg = function (string) {
       var exp = /^[a-z ,.'-]+$/i;
       var test = exp.test(string);
+      if(test === false){
+        self.modalText = "Error: Please enter a valid name.";
+      }
       return test;
     };
 
     self.assignmentReg =function (string) {
       var exp = /^[a-zA-Z 0-9\#]*$/.test(string);
+      if(exp === false){
+        self.modalText = "Error: Please enter a valid assignment. (# are allowed)";
+      }
       return exp;
     };
 
