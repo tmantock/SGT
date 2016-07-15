@@ -26,7 +26,7 @@ app.controller("studentController", ["studentTableService", function(studentTabl
             var name = self.toTitleCase(self.newStudent.name);
             var assignment = self.toTitleCase(self.newStudent.assignment);
             if (self.gradeReg(self.newStudent.grade) && self.nameReg(name) && self.assignmentReg(assignment)) {
-                self.students.$add(self.student).then(function(ref) {
+                self.students.$add(self.newStudent).then(function(ref) {
                     console.log("Added: ", ref.key());
                 });
                 self.clearInputs();
