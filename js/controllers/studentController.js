@@ -23,13 +23,13 @@ app.controller("studentController", ["studentTableService", function(studentTabl
 
     self.addStudent = function() {
         if (self.newStudent.name !== '' && self.newStudent.assignment !== '' && self.newStudent.grade !== '') {
-            var name = toTitleCase(self.newStudent.name);
-            var assignment = toTitleCase(self.newStudent.assignment);
-            if (gradeReg(self.newStudent.grade) && nameReg(name) && assignmentReg(assignment)) {
+            var name = self.toTitleCase(self.newStudent.name);
+            var assignment = self.toTitleCase(self.newStudent.assignment);
+            if (self.gradeReg(self.newStudent.grade) && self.nameReg(name) && self.assignmentReg(assignment)) {
                 self.students.$add(self.student).then(function(ref) {
                     console.log("Added: ", ref.key());
                 });
-                clearInputs();
+                self.clearInputs();
             } else {
                 self.modalText = "Error: Please input a valid Name, Assignment, and Grade";
                 $("#modal").modal("show");
@@ -50,20 +50,18 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     };
 
     self.confirmStudentEdit = function() {
-        console.log(self.editStudent);
         if (self.editStudent.name !== '' && self.editStudent.assignment !== '' && self.editStudent.grade !== '') {
-            var name = toTitleCase(self.editStudent.name);
-            var assignment = toTitleCase(self.editStudent.assignment);
+            var name = self.toTitleCase(self.editStudent.name);
+            var assignment = self.toTitleCase(self.editStudent.assignment);
             var grade = self.editStudent.grade;
-            console.log(grade);
-            if (gradeReg(grade) && nameReg(name) && assignmentReg(assignment)) {
+            if (self.gradeReg(grade) && self.nameReg(name) && self.assignmentReg(assignment)) {
                 self.student.name = self.editStudent.name;
                 self.student.assignment = self.editStudent.assignment;
                 self.student.grade = self.editStudent.grade;
                 self.students.$save(self.student).then(function(ref) {
                     console.log("Edited: " + ref.key());
                 });
-                clearInputs();
+                self.clearInputs();
             } else {
                 self.modalText = "Error: Please input a valid Name, Assignment, and Grade";
                 $("#modal").modal("show");
@@ -96,34 +94,45 @@ app.controller("studentController", ["studentTableService", function(studentTabl
           console.log("Removed: " , ref);
         });
     };
+
+    self.clearInputs = function () {
+      for(var index in self.newStudent){
+        self.newStudent[index] = '';
+      }
+
+      for(var input in self.editStudent){
+        self.editStudent[input] = '';
+      }
+    };
+
+    self.gradeReg = function (string) {
+      var number = parseInt(string);
+      var exp = /^[0-9]{1,3}$/.test(string);
+      if(exp === true && number <= 100){
+        return true;
+      } else if(exp === true && number > 100){
+        self.modalText = "Error: Please enter a valid number from 0 to 100 (no decimals).";
+        $("#modal").modal('show');
+        return false;
+      }else if(exp === false){
+        return false;
+      }
+    };
+
+    self.nameReg = function (string) {
+      var exp = /^[a-z ,.'-]+$/i;
+      var test = exp.test(string);
+      return test;
+    };
+
+    self.assignmentReg =function (string) {
+      var exp = /^[a-zA-Z 0-9\#]*$/.test(string);
+      return exp;
+    };
+
+    self.toTitleCase = function (str) {
+      return str.replace(/\w\S*/g, function(txt) {
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      });
+    };
 }]);
-
-function nameReg(string) {
-    var exp = /^[a-z ,.'-]+$/i;
-    var test = exp.test(string);
-    console.log("Name Reg: ", test);
-    return test;
-}
-
-function assignmentReg(string) {
-    var exp = /^[a-zA-Z 0-9\#]*$/.test(string);
-    console.log("Assignment Reg: ", exp);
-    return exp;
-}
-
-function gradeReg(string) {
-    console.log(string);
-    var exp = /^[0-9]{1,3}$/.test(string);
-    console.log("Grade Reg: ", exp);
-    return exp;
-}
-
-function clearInputs() {
-    $('input').val('');
-}
-
-function toTitleCase(str) {
-    return str.replace(/\w\S*/g, function(txt) {
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    });
-}
