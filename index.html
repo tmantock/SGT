@@ -15,7 +15,6 @@
             <div class="page-header">
                 <!-- only show this element when the isnt on mobile -->
                 <h1 class='hidden-xs col-md-12'>Student Grade Table
-                    <!-- Difficult to see the value this provides -->
                     <small class="pull-right">Average Grade :
                         <span class="avgGrade label label-default">{{ sc.average }}</span>
                     </small>
@@ -31,6 +30,7 @@
 
             <div class="student-add-form col-sm-3 col-xs-12 form-horizontal pull-right to-do-container">
                 <h4 ng-click="showstudentform = ! showstudentform" class="formHeader">Add New Student</h4>
+                <!-- Custom directive for storing theh html template for the student iput form -->
                 <student-info info="addform" class="legend"></student-info>
 
                 <h4 class="formHeader">Search</h4>
@@ -45,11 +45,14 @@
                 <div ng-controller="todoController as tc">
                     <input id="todo" class="form-control" ng-model="tc.todo" ng-keyup="tc.addTodo()" type="text" placeholder="What needs to be done?">
                     <div class="sub-container">
+                      <!-- ng-repeat for each todo -->
                         <div class="border-wrap" ng-repeat="item in tc.todoList">
                             <div class="checkbox checkbox-circle list">
+                                <!-- Checkbox toggling between completed and non-completed tasks -->
                                 <input ng-click="toggleText = !toggleText; tc.markCheck(toggleText)" class="toggle" type="checkbox" id="{{ checkbox + $index }}" ng-click()>
                                 <label ng-class="{ 'strikethrough': toggleText , 'normal': !toggleText }" for="{{ checkbox + $index }}">{{ item }}</label>
-                                <i ng-click="tc.removeTask($index)" class="remove-task fa fa-times-circle-o"></i>
+                                <!-- ng-class for toggling a strikethrough and normal text class -->
+                                <i ng-click="tc.removeTask($index)" class="remove-task glyphicon glyphicon-trash"></i>
                             </div>
                         </div>
                     </div>
@@ -75,6 +78,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                      <!-- filter for searching s applied in the row where ng-repeat of student is initialized and the ng-class for warning and danger are declared -->
                         <tr ng-repeat="student in sc.students | orderBy: sc.sortType:sc.sortReverse | filter: searchStudent" class="animate-repeat" ng-class="{'danger': sc.dangerCheck(student.grade), 'warning': sc.warningCheck(student.grade)}">
                             <td class="col-sm-3">{{ student.name }}</td>
                             <td class="col-sm-3" ng-model="student.name">{{ student.assignment }}</td>
