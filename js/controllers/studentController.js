@@ -16,6 +16,22 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     self.students = studentTableService.students;
     //Once the students have been loaded from firebase, the average grade is set and the assignment from each student is pushed to the assignment array
     self.students.$loaded().then(function() {
+        self.updateInformation()
+    });
+
+    self.students.$watch(function(event){
+        self.updateInformation();
+    })
+    //sorType is set to the student name by default
+    self.sortType = 'name';
+    //sortReverse is set to false by default
+    self.sortReverse = false;
+    //search variable is set to an empty string by default
+    self.search = '';
+    //modalText for error messages is set to an empty string by default
+    self.modalText = '';
+
+    self.updateInformation = function(){
         //number is declared and set to zero so the grade for each student can be added to it
         var number = 0;
         //for loop for iterating over the student array
@@ -31,15 +47,7 @@ app.controller("studentController", ["studentTableService", function(studentTabl
         number = number / self.students.length;
         //average is set to number and set to have no decimal points
         self.average = number.toFixed(0);
-    });
-    //sorType is set to the student name by default
-    self.sortType = 'name';
-    //sortReverse is set to false by default
-    self.sortReverse = false;
-    //search variable is set to an empty string by default
-    self.search = '';
-    //modalText for error messages is set to an empty string by default
-    self.modalText = '';
+    }
 
     //addStudent method is declared to add students to the database
     self.addStudent = function() {
@@ -58,11 +66,13 @@ app.controller("studentController", ["studentTableService", function(studentTabl
                 self.clearInputs();
             } else {
                 //if the regex test was failed, then show the error message
+                $(".error-modal-text").html(self.modalText);
                 $("#modal").modal("show");
             }
             //if the fields are empty or undefined, then ask the user to input their information
         } else {
             self.modalText = "Error: Please input a Name, Assignment, and Grade in the input field";
+            $(".error-modal-text").html(self.modalText);
             $("#modal").modal("show");
         }
 
@@ -102,11 +112,13 @@ app.controller("studentController", ["studentTableService", function(studentTabl
                 self.clearInputs();
                 //if the regex test failed, then show the error message
             } else {
+                $(".error-modal-text").html(self.modalText);
                 $("#modal").modal("show");
             }
             //if the input values are blank or undefined, then ask the user to make an input
         } else {
             self.modalText = "Error: Please input a Name, Assignment, and Grade in the input field";
+            $(".error-modal-text").html(self.modalText);
             $("#modal").modal("show");
         }
 
@@ -157,12 +169,17 @@ app.controller("studentController", ["studentTableService", function(studentTabl
         //regular expression checks if it is a nubmber and only allows a length of 3
         var exp = /^[0-9]{1,3}$/.test(string);
         //conditional for determing the accepted range for a grade
-        if (exp === true && number <= 100) {
-            return true;
-        } else if (exp === true && number > 100) {
-            self.modalText = "Error: Please enter a valid number from 0 to 100 (no decimals).";
-            return false;
+        if (exp === true ){
+            if(number > 0 && number <= 100){
+                return true;
+            } else if (number > 100 || number < 0){
+                console.log(number);
+                self.modalText = "Error: Please enter a valid number from 0 to 100 (no decimals).";
+                return false;
+            }
+            
         } else if (exp === false) {
+            self.modalText = "Error: Please enter a valid number from 0 to 100 (no decimals).";
             return false;
         }
     };
