@@ -177,7 +177,7 @@ app.controller("studentController", ["studentTableService", function(studentTabl
                 self.modalText = "Error: Please enter a valid number from 0 to 100 (no decimals).";
                 return false;
             }
-            
+
         } else if (exp === false) {
             self.modalText = "Error: Please enter a valid number from 0 to 100 (no decimals).";
             return false;
@@ -191,6 +191,11 @@ app.controller("studentController", ["studentTableService", function(studentTabl
         var test = exp.test(string);
         if (test === false) {
             self.modalText = "Error: Please enter a valid name.";
+        }
+        var splitString = string.split(' ');
+        if(splitString.length < 2 || splitString[1] === ""){
+          test = false;
+          self.modalText = "Error: For our records, please enter a first and last name.";
         }
         return test;
     };
@@ -207,6 +212,7 @@ app.controller("studentController", ["studentTableService", function(studentTabl
 
     //toTitleCase method takes a string as a parameter and capitalizes the first letter of each word
     self.toTitleCase = function(str) {
+        str.charAt(0).toUpperCase();
         return str.replace(/\w\S*/g, function(txt) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
