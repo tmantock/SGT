@@ -197,13 +197,20 @@ app.controller("studentController", ["studentTableService", function(studentTabl
           test = false;
           self.modalText = "Error: For our records, please enter a first and last name.";
         }
+        for (var i = 0; i < splitString.length; i++) {
+          if(splitString[i].length < 2 || splitString[i][1] === "."){
+            self.modalText = "Error: Please enter your full first and last name.";
+            test = false;
+            break;
+          }
+        }
         return test;
     };
 
     //assignmentReg method for checking the assignment input
     self.assignmentReg = function(string) {
         //regular expression takes letters, numbersm and accepts #
-        var exp = /^[a-zA-Z 0-9\#]*$/.test(string);
+        var exp = /^[a-zA-Z 0-9\#:]*$/.test(string);
         if (exp === false) {
             self.modalText = "Error: Please enter a valid assignment. (# are allowed)";
         }
