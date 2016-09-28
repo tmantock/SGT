@@ -30,7 +30,8 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     self.search = '';
     //modalText for error messages is set to an empty string by default
     self.modalText = '';
-
+    //method for udpating the Class grade average displayed on the top of the home page and updtaing the autocomplete list
+    //function has no parameters and returns nothing
     self.updateInformation = function(){
         //number is declared and set to zero so the grade for each student can be added to it
         var number = 0;
@@ -50,6 +51,7 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     }
 
     //addStudent method is declared to add students to the database
+    //function has no parameters and returns nothing
     self.addStudent = function() {
         //conditional for determing of the student object's properties are undefined or empty
         if (self.newStudent.name.trim() !== '' && self.newStudent.assignment.trim() !== '' && self.newStudent.grade.trim() !== '' && typeof self.newStudent.name !== 'undefined' && typeof self.newStudent.assignment !== 'undefined' && typeof self.newStudent.grade !== 'undefined') {
@@ -79,6 +81,7 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     };
 
     //method for setting the input fields equal to the current values for the student. Takes in the student object from firebase as a parameter
+    //function takes a student object as a parameter and returns nothing
     self.editStudentObject = function(student) {
         //the editStudent's key and values are set to that of the student object
         self.editStudent.name = student.name;
@@ -91,6 +94,7 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     };
 
     //method for confirming to send an updated student to firbase
+    //function has no parameters and returns nothing
     self.confirmStudentEdit = function() {
       //conditional for determing if the object is undefined or empty
         if (self.editStudent.name !== '' && self.editStudent.assignment !== '' && self.editStudent.grade !== '' && typeof self.editStudent.name !== 'undefined' && typeof self.editStudent.assignment !== 'undefined' && typeof self.editStudent.grade !== 'undefined') {
@@ -126,6 +130,7 @@ app.controller("studentController", ["studentTableService", function(studentTabl
 
     //dangerCheck method for checking if any student's grade are below a certain value
     //this will return true if the condition is met and activate an ng-class
+    //function takes a string as parameter and returns a boolean
     self.dangerCheck = function(grade) {
         if (parseInt(grade) <= 60) {
             return true;
@@ -136,6 +141,7 @@ app.controller("studentController", ["studentTableService", function(studentTabl
 
     //warningCheck method for checking if any student's grade are below a certain value
     //this will return true if the condition is met and activate an ng-class
+    //function takes a string as a paramater and returns a boolean
     self.warningCheck = function(grade) {
         if (parseInt(grade) >= 61 && parseInt(grade) <= 72) {
             return true;
@@ -145,6 +151,7 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     };
 
     //deleteStudent method for deleting a student in firebase. Takes in the firebase student object as a parameter
+    //function takes a student object as parameter and returns nothing
     self.deleteStudent = function(student) {
         //student is deleted from the firebase Array
         self.students.$remove(student).then(function(ref) {
@@ -153,6 +160,7 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     };
 
     //clear input method loops through the newStudent and editStudent object and deletes the values for each key value
+    //this function has no parameters and returns nothing
     self.clearInputs = function() {
         for (var index in self.newStudent) {
             self.newStudent[index] = '';
@@ -164,6 +172,7 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     };
 
     //gradeReg method for checking that a grade input is valid
+    //takes a string as a parameter and returns a boolean
     self.gradeReg = function(string) {
         var number = parseInt(string);
         //regular expression checks if it is a nubmber and only allows a length of 3
@@ -185,29 +194,37 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     };
 
     //nameReg method for checking the name input for a student
+    //takes a string as a parameter and returns a boolean
     self.nameReg = function(string) {
         //regular expression ignores case and allows periods, commas, hyphens, and apostraphes
         var exp = /^[a-z ,.'-]+$/i;
         var test = exp.test(string);
+        //set the modalText error message based on the result of the regular expression check
         if (test === false) {
             self.modalText = "Error: Please enter a valid name.";
         }
+        //split the name string to return an array with the first name, last name, and seperators
         var splitString = string.split(' ');
+        //if the array of first and last names are too short or if the second index of the array is equal to an empty string then set the modalText and the test value to false
         if(splitString.length < 2 || splitString[1] === ""){
           test = false;
           self.modalText = "Error: For our records, please enter a first and last name.";
         }
+        //iterate over the array of first and last names
         for (var i = 0; i < splitString.length; i++) {
+          //if the name is too shorth or has been shortened (indicated by a "."), then set test to false and set the error message for the modal.
           if(splitString[i].length < 2 || splitString[i][1] === "."){
             self.modalText = "Error: Please enter your full first and last name.";
             test = false;
             break;
           }
         }
+        //return the value of this test to be used in condititions when CRUD operations are used in the application
         return test;
     };
 
     //assignmentReg method for checking the assignment input
+    //takes a string as a parameter and returns a boolean
     self.assignmentReg = function(string) {
         //regular expression takes letters, numbersm and accepts #
         var exp = /^[a-zA-Z 0-9\#:]*$/.test(string);
@@ -218,9 +235,10 @@ app.controller("studentController", ["studentTableService", function(studentTabl
     };
 
     //toTitleCase method takes a string as a parameter and capitalizes the first letter of each word
-    self.toTitleCase = function(str) {
-        str.charAt(0).toUpperCase();
-        return str.replace(/\w\S*/g, function(txt) {
+    //takes a string as a parameter and returns a string
+    self.toTitleCase = function(string) {
+        string.charAt(0).toUpperCase();
+        return string.replace(/\w\S*/g, function(txt) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
     };
