@@ -61,6 +61,8 @@ app.controller("studentController", ["studentTableService", function(studentTabl
             //conditional for determing if the name, assignment, and grade inputs pass a regex test
             if (self.gradeReg(self.newStudent.grade) && self.nameReg(name) && self.assignmentReg(assignment)) {
                 //add the student to firebase
+                self.newStudent.name = name;
+                self.newStudent.assignment = assignment;
                 self.students.$add(self.newStudent).then(function(ref) {
                     console.log("Added: ", ref.key());
                 });
@@ -105,6 +107,8 @@ app.controller("studentController", ["studentTableService", function(studentTabl
             //conditional for determing if name, assignment, and grade pass a regex test
             if (self.gradeReg(grade) && self.nameReg(name) && self.assignmentReg(assignment)) {
                 //the value of firebase student objects are set equal to the edit student object
+                self.editStudent.name = name;
+                self.editStudent.assignment = assignment;
                 self.student.name = self.editStudent.name;
                 self.student.assignment = self.editStudent.assignment;
                 self.student.grade = self.editStudent.grade;
