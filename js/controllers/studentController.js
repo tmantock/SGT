@@ -43,6 +43,7 @@ app.controller("studentController", [
                 self.students[i].grade = parseInt(self.students[i].grade);
                 //student grade is added to the number variable
                 number += self.students[i].grade;
+                //Check to see if the assignement is already in the array of assignements
                 if(self.assignmentArray.indexOf(self.students[i].assignment) === -1){
                   //push the assignment for the student into an the assignment array
                   self.assignmentArray.push(self.students[i].assignment);
