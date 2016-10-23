@@ -41,10 +41,12 @@ app.controller("studentController", [
             for (var i = 0; i < self.students.length; i++) {
                 //convert the grade into a Javascript number
                 self.students[i].grade = parseInt(self.students[i].grade);
-                //push the assignment for the student into an the assignment array
-                self.assignmentArray.push(self.students[i].assignment);
                 //student grade is added to the number variable
                 number += self.students[i].grade;
+                if(self.assignmentArray.indexOf(self.students[i].assignment) === -1){
+                  //push the assignment for the student into an the assignment array
+                  self.assignmentArray.push(self.students[i].assignment);
+                }
             }
             //number is divided by the number of grades to get the average
             number = number / self.students.length;
