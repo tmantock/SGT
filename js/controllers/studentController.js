@@ -68,6 +68,7 @@ app.controller("studentController", [
                     //add the student to firebase
                     self.newStudent.name = name;
                     self.newStudent.assignment = assignment;
+                    self.newStudent.locked = false;
                     self.students.$add(self.newStudent).then(function(ref) {
                         console.log("Added: ", ref.key());
                     });
