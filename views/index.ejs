@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Redux real-world example</title>
+     <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css" />
+  </head>
+  <body>
+    <p id="root"><%- html %></p>
+    <script type="text/javascript" charset="utf-8">
+      window.__PRELOADED_STATE__ = "<%= JSON.stringify(preloadedState) %>";
+    </script>
+    <script src="/bundle.js"></script>
+  </body>
+</html>
