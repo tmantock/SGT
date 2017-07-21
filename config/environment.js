@@ -7,6 +7,14 @@ module.exports = function(environment) {
     environment,
     rootURL: '/',
     locationType: 'auto',
+    contentSecurityPolicy: {
+      'connect-src': "'self' wss://*.firebaseio.com"
+    },
+    firebase: {
+      apiKey: "AIzaSyCnKuuYMhqpQ5xxbiRhj4YXOzti691JSt4",
+      authDomain: "student-table.firebaseapp.com",
+      databaseURL: "https://student-table.firebaseio.com/"
+    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
